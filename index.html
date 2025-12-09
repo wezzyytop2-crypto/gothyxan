@@ -15,11 +15,11 @@
                 <span>GOTYXAN</span><span>-PRO</span>
             </a>
             <ul class="nav-menu">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="shop.html">Shop</a></li>
-                <li><a href="cart.html">Cart <span class="cart-count">0</span></a></li>
-                <li><a href="checkout.html">Checkout</a></li>
-                <li><a href="about.html">About</a></li>
+                <li><a href="index.html" class="active">HOME</a></li>
+                <li><a href="shop.html">SHOP</a></li>
+                <li><a href="cart.html">CART <span class="cart-count">0</span></a></li>
+                <li><a href="checkout.html">CHECKOUT</a></li>
+                <li><a href="about.html">ABOUT</a></li>
             </ul>
         </div>
     </nav>
@@ -28,53 +28,56 @@
     <section class="hero">
         <div class="hero-content">
             <h1>GOTYXAN-PRO</h1>
-            <p class="hero-subtitle">LUXURY STREETWEAR</p>
-            <a href="shop.html" class="btn">VIEW COLLECTION</a>
+            <p class="hero-subtitle">LUXURY AVANT-GARDE</p>
+            <a href="shop.html" class="btn">EXPLORE COLLECTION</a>
         </div>
     </section>
 
-    <!-- Featured Brands -->
+    <!-- Featured -->
     <section class="shop-section">
         <div class="container">
-            <h2 class="section-title">BRANDS</h2>
+            <h2 class="section-title">CURRENT SELECTION</h2>
+            
             <div class="products-grid">
-                <!-- Balenciaga -->
-                <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800" alt="Balenciaga" class="product-image">
-                    <div class="product-info">
-                        <p class="product-brand">Balenciaga</p>
-                        <h3 class="product-name">Track Sneakers</h3>
-                        <p class="product-price">€950</p>
-                    </div>
-                </div>
-
                 <!-- Rick Owens -->
                 <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800" alt="Rick Owens" class="product-image">
+                    <img src="https://cdn.shopify.com/s/files/1/0266/5765/9343/products/RICKOWENS_SS21_GETHBOOTS_LEATHER_MILK_1_1800x.jpg?v=1614296822" 
+                         alt="Rick Owens Geobasket" class="product-image">
                     <div class="product-info">
-                        <p class="product-brand">Rick Owens</p>
-                        <h3 class="product-name">Geobasket Sneakers</h3>
-                        <p class="product-price">€1,200</p>
+                        <p class="product-brand">RICK OWENS</p>
+                        <h3 class="product-name">GEOBASKET LEATHER SNEAKERS</h3>
+                        <p class="product-price">€540</p>
+                        <button class="btn-add" onclick="addToCart({id: 1, name: 'RICK OWENS GEOBASKET LEATHER SNEAKERS', price: 540, brand: 'RICK OWENS', category: 'sneakers', image: 'https://cdn.shopify.com/s/files/1/0266/5765/9343/products/RICKOWENS_SS21_GETHBOOTS_LEATHER_MILK_1_1800x.jpg?v=1614296822'})">
+                            ADD TO CART
+                        </button>
                     </div>
                 </div>
 
-                <!-- Jordan -->
+                <!-- Balenciaga -->
                 <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=800" alt="Jordan" class="product-image">
+                    <img src="https://balenciaga.dam.kering.com/m/38960d5fa3c3b5c/Large-692359TWCG11000_F.jpg?v=3" 
+                         alt="Balenciaga Track" class="product-image">
                     <div class="product-info">
-                        <p class="product-brand">Air Jordan</p>
-                        <h3 class="product-name">Jordan 1 Retro High</h3>
-                        <p class="product-price">€350</p>
+                        <p class="product-brand">BALENCIAGA</p>
+                        <h3 class="product-name">TRACK 2 SNEAKERS BLACK</h3>
+                        <p class="product-price"><span>€950</span> €428</p>
+                        <button class="btn-add" onclick="addToCart({id: 2, name: 'BALENCIAGA TRACK 2 SNEAKERS BLACK', price: 428, brand: 'BALENCIAGA', category: 'sneakers', image: 'https://balenciaga.dam.kering.com/m/38960d5fa3c3b5c/Large-692359TWCG11000_F.jpg?v=3'})">
+                            ADD TO CART
+                        </button>
                     </div>
                 </div>
 
-                <!-- Dr. Martens -->
+                <!-- Margiela -->
                 <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1547949003-9792a18a2601?w=800" alt="Dr. Martens" class="product-image">
+                    <img src="https://www.maisonmargiela.com/on/demandware.static/-/Sites-margielaEU-Library/default/dw9c67542e/images/22AW/MWM0124761-23A_1.jpg" 
+                         alt="Maison Margiela Tabi" class="product-image">
                     <div class="product-info">
-                        <p class="product-brand">Dr. Martens</p>
-                        <h3 class="product-name">1460 Boots</h3>
-                        <p class="product-price">€180</p>
+                        <p class="product-brand">MAISON MARGIELA</p>
+                        <h3 class="product-name">TABI ANKLE BOOTS</h3>
+                        <p class="product-price">€625</p>
+                        <button class="btn-add" onclick="addToCart({id: 3, name: 'MAISON MARGIELA TABI ANKLE BOOTS', price: 625, brand: 'MAISON MARGIELA', category: 'boots', image: 'https://www.maisonmargiela.com/on/demandware.static/-/Sites-margielaEU-Library/default/dw9c67542e/images/22AW/MWM0124761-23A_1.jpg'})">
+                            ADD TO CART
+                        </button>
                     </div>
                 </div>
             </div>
@@ -83,13 +86,13 @@
 
     <footer class="footer">
         <div class="container">
-            <p>© 2024 GOTYXAN-PRO. ALL RIGHTS RESERVED.</p>
+            <p>© 2024 GOTYXAN-PRO — BERLIN</p>
         </div>
     </footer>
 
     <script src="js/cart.js"></script>
     <script>
-        // Simple cart counter
+        // Simple cart functions
         function updateCartCount() {
             const cart = JSON.parse(localStorage.getItem('gotyxan_cart') || '[]');
             const count = cart.reduce((total, item) => total + item.quantity, 0);
@@ -111,8 +114,25 @@
             localStorage.setItem('gotyxan_cart', JSON.stringify(cart));
             updateCartCount();
             
-            // Notification
-            alert('Added to cart: ' + product.name);
+            // Show notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: white;
+                color: black;
+                padding: 15px 25px;
+                font-size: 12px;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                z-index: 10000;
+                border: 1px solid black;
+            `;
+            notification.textContent = `ADDED: ${product.name}`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.remove(), 3000);
         }
         
         // Initialize
