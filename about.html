@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - GOTYXAN-PRO</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span>GOTYXAN</span><span>-PRO</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart <span class="cart-count">0</span></a></li>
+                <li><a href="checkout.html">Checkout</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- About Section -->
+    <section class="shop-section">
+        <div class="container">
+            <h2 class="section-title">ABOUT GOTYXAN-PRO</h2>
+            
+            <div style="max-width: 800px; margin: 0 auto; line-height: 1.8;">
+                <p style="margin-bottom: 30px; font-size: 18px;">
+                    GOTYXAN-PRO is a curated luxury streetwear platform offering exclusive drops, 
+                    limited editions, and premium collections from the world's most sought-after brands.
+                </p>
+                
+                <p style="margin-bottom: 30px;">
+                    Founded on the principles of authenticity, exclusivity, and quality, we bridge the gap 
+                    between high fashion and street culture. Our selection process focuses on pieces that 
+                    define contemporary style and push cultural boundaries.
+                </p>
+                
+                <h3 style="font-size: 14px; letter-spacing: 3px; text-transform: uppercase; margin: 40px 0 20px;">BRANDS WE CARRY</h3>
+                <ul style="list-style: none; margin-bottom: 40px;">
+                    <li>• Balenciaga</li>
+                    <li>• Rick Owens</li>
+                    <li>• Air Jordan</li>
+                    <li>• Dr. Martens</li>
+                    <li>• Carhartt WIP</li>
+                    <li>• Gallery Dept</li>
+                    <li>• Chrome Hearts</li>
+                    <li>• Maison Margiela</li>
+                    <li>• Raf Simons</li>
+                </ul>
+                
+                <h3 style="font-size: 14px; letter-spacing: 3px; text-transform: uppercase; margin: 40px 0 20px;">CONTACT</h3>
+                <p>
+                    For inquiries: <a href="mailto:contact@gothyxan-pro.com" style="color: #000; text-decoration: underline;">contact@gothyxan-pro.com</a><br>
+                    Customer service available 24/7
+                </p>
+                
+                <p style="margin-top: 60px; font-size: 12px; opacity: 0.7;">
+                    Based in Berlin • Shipping worldwide
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 GOTYXAN-PRO. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Update cart count
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('gotyxan_cart') || '[]');
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.querySelectorAll('.cart-count').forEach(el => {
+                el.textContent = count;
+            });
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+    </script>
+</body>
+</html>

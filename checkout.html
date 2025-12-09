@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - GOTYXAN-PRO</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span>GOTYXAN</span><span>-PRO</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart <span class="cart-count">0</span></a></li>
+                <li><a href="checkout.html" class="active">Checkout</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Checkout Section -->
+    <section class="checkout-section">
+        <div class="container">
+            <h2 class="section-title">CHECKOUT</h2>
+            
+            <div class="checkout-container">
+                <!-- Checkout Form -->
+                <div class="checkout-form">
+                    <h3>SHIPPING INFORMATION</h3>
+                    
+                    <form id="checkout-form">
+                        <div class="form-group">
+                            <label for="full-name">FULL NAME</label>
+                            <input type="text" id="full-name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">EMAIL</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">PHONE</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="address">ADDRESS</label>
+                            <input type="text" id="address" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="city">CITY</label>
+                            <input type="text" id="city" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="zip">ZIP CODE</label>
+                            <input type="text" id="zip" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="country">COUNTRY</label>
+                            <select id="country" required>
+                                <option value="">SELECT COUNTRY</option>
+                                <option value="DE">Germany</option>
+                                <option value="FR">France</option>
+                                <option value="IT">Italy</option>
+                                <option value="ES">Spain</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="US">United States</option>
+                                <option value="RU">Russia</option>
+                            </select>
+                        </div>
+                        
+                        <h3>PAYMENT METHOD</h3>
+                        <div class="payment-methods">
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="card" checked>
+                                CREDIT/DEBIT CARD
+                            </label>
+                            
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="paypal">
+                                PAYPAL
+                            </label>
+                            
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="applepay">
+                                APPLE PAY
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-pay">COMPLETE ORDER</button>
+                    </form>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <h3 class="summary-title">ORDER SUMMARY</h3>
+                    
+                    <div id="checkout-items">
+                        <!-- Items will be loaded dynamically -->
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="checkout-subtotal">€0</span>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span>€20</span>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span>Tax</span>
+                        <span id="checkout-tax">€0</span>
+                    </div>
+                    
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="checkout-total">€0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 GOTYXAN-PRO. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Load checkout items
+        function loadCheckout() {
+            const cart = JSON.parse(localStorage.getItem('gotyxan_cart') || '[]');
+            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            
+            // Update cart count
+            document.querySelectorAll('.cart-count').forEach(el => {
+                el.textContent = cartCount;
+            });
+            
+            const checkoutItems = document.getElementById('checkout-items');
+            let subtotal = 0;
+            let itemsHtml = '';
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                itemsHtml += `
+                    <div class="summary-row">
+                        <span>${item.name} × ${item.quantity}</span>
+                        <span>€${itemTotal.toFixed(2)}</span>
+                    </div>
+                `;
+            });
+            
+            checkoutItems.innerHTML = itemsHtml;
+            
+            // Calculate totals
+            const shipping = 20;
+            const tax = subtotal * 0.1; // 10% tax
+            const total = subtotal + shipping + tax;
+            
+            document.getElementById('checkout-subtotal').textContent = `€${subtotal.toFixed(2)}`;
+            document.getElementById('checkout-tax').textContent = `€${tax.toFixed(2)}`;
+            document.getElementById('checkout-total').textContent = `€${total.toFixed(2)}`;
+        }
+        
+        // Handle form submission
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const cart = JSON.parse(localStorage.getItem('gotyxan_cart') || '[]');
+            if (cart.length === 0) {
+                alert('Your cart is empty');
+                return;
+            }
+            
+            // In a real app, you would process payment here
+            alert('Order placed successfully! Thank you for your purchase.');
+            
+            // Clear cart
+            localStorage.removeItem('gotyxan_cart');
+            
+            // Redirect to home
+            window.location.href = 'index.html';
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadCheckout);
+    </script>
+</body>
+</html>

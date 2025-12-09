@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOTYXAN-PRO</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span>GOTYXAN</span><span>-PRO</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart <span class="cart-count">0</span></a></li>
+                <li><a href="checkout.html">Checkout</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>GOTYXAN-PRO</h1>
+            <p class="hero-subtitle">LUXURY STREETWEAR</p>
+            <a href="shop.html" class="btn">VIEW COLLECTION</a>
+        </div>
+    </section>
+
+    <!-- Featured Brands -->
+    <section class="shop-section">
+        <div class="container">
+            <h2 class="section-title">BRANDS</h2>
+            <div class="products-grid">
+                <!-- Balenciaga -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800" alt="Balenciaga" class="product-image">
+                    <div class="product-info">
+                        <p class="product-brand">Balenciaga</p>
+                        <h3 class="product-name">Track Sneakers</h3>
+                        <p class="product-price">€950</p>
+                    </div>
+                </div>
+
+                <!-- Rick Owens -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800" alt="Rick Owens" class="product-image">
+                    <div class="product-info">
+                        <p class="product-brand">Rick Owens</p>
+                        <h3 class="product-name">Geobasket Sneakers</h3>
+                        <p class="product-price">€1,200</p>
+                    </div>
+                </div>
+
+                <!-- Jordan -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=800" alt="Jordan" class="product-image">
+                    <div class="product-info">
+                        <p class="product-brand">Air Jordan</p>
+                        <h3 class="product-name">Jordan 1 Retro High</h3>
+                        <p class="product-price">€350</p>
+                    </div>
+                </div>
+
+                <!-- Dr. Martens -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1547949003-9792a18a2601?w=800" alt="Dr. Martens" class="product-image">
+                    <div class="product-info">
+                        <p class="product-brand">Dr. Martens</p>
+                        <h3 class="product-name">1460 Boots</h3>
+                        <p class="product-price">€180</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 GOTYXAN-PRO. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script src="js/cart.js"></script>
+    <script>
+        // Simple cart counter
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('gotyxan_cart') || '[]');
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.querySelectorAll('.cart-count').forEach(el => {
+                el.textContent = count;
+            });
+        }
+        
+        function addToCart(product) {
+            let cart = JSON.parse(localStorage.getItem('gotyxan_cart') || '[]');
+            const existingItem = cart.find(item => item.id === product.id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({...product, quantity: 1});
+            }
+            
+            localStorage.setItem('gotyxan_cart', JSON.stringify(cart));
+            updateCartCount();
+            
+            // Notification
+            alert('Added to cart: ' + product.name);
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+    </script>
+</body>
+</html>
