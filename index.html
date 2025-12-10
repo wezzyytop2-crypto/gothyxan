@@ -3,140 +3,725 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOTYXAN-PRO</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Rick Owens Collection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 20px;
+            position: relative;
+        }
+        
+        /* Admin Panel Styles */
+        .admin-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .admin-btn {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 12px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .admin-login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .admin-login-form {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+        }
+        
+        .admin-login-form h2 {
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .admin-content {
+            display: none;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .admin-nav {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        
+        .admin-nav-btn {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .admin-nav-btn.active {
+            color: #000;
+            border-bottom: 2px solid #000;
+        }
+        
+        .admin-section {
+            display: none;
+        }
+        
+        .admin-section.active {
+            display: block;
+        }
+        
+        .add-product-form {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .image-upload {
+            border: 2px dashed #ddd;
+            padding: 40px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        
+        .image-upload:hover {
+            border-color: #999;
+        }
+        
+        .preview-image {
+            max-width: 200px;
+            max-height: 200px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .btn {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 14px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+        
+        .btn:hover {
+            background: #333;
+        }
+        
+        /* Main Site Styles */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .page-title {
+            text-align: center;
+            margin: 30px 0 50px;
+            font-weight: 300;
+            font-size: 32px;
+            letter-spacing: 1px;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 40px;
+            justify-content: center;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+        
+        .product-image-container {
+            width: 100%;
+            height: 380px;
+            overflow: hidden;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .product-info {
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .product-brand {
+            font-size: 11px;
+            letter-spacing: 3px;
+            color: #888;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .product-name {
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            color: #222;
+        }
+        
+        .product-price {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #000;
+        }
+        
+        .product-code {
+            font-size: 13px;
+            color: #aaa;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+        }
+        
+        .add-to-cart-btn {
+            width: 100%;
+            background-color: #000;
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: 600;
+        }
+        
+        .add-to-cart-btn:hover {
+            background-color: #333;
+        }
+        
+        /* Users Activity Table */
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .users-table th, .users-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .users-table th {
+            background: #f9f9f9;
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .users-table tr:hover {
+            background: #f9f9f9;
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 4px;
+            z-index: 1002;
+            display: none;
+        }
+        
+        .notification.show {
+            display: block;
+            animation: fadeInOut 3s ease;
+        }
+        
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            20%, 80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <span>GOTYXAN</span><span>-PRO</span>
-            </a>
-            <ul class="nav-menu">
-                <li><a href="index.html" class="active">HOME</a></li>
-                <li><a href="shop.html">SHOP</a></li>
-                <li><a href="cart.html">CART <span class="cart-count">0</span></a></li>
-                <li><a href="checkout.html">CHECKOUT</a></li>
-                <li><a href="about.html">ABOUT</a></li>
-            </ul>
+    <!-- Admin Panel Button -->
+    <div class="admin-panel">
+        <button class="admin-btn" onclick="showAdminLogin()">Admin Panel</button>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div class="admin-login-modal" id="adminLoginModal">
+        <div class="admin-login-form">
+            <h2>Admin Login</h2>
+            <div class="form-group">
+                <label for="adminUsername">Username</label>
+                <input type="text" id="adminUsername" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label for="adminPassword">Password</label>
+                <input type="password" id="adminPassword" placeholder="Enter password">
+            </div>
+            <button class="btn" onclick="adminLogin()">Login</button>
         </div>
-    </nav>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>GOTYXAN-PRO</h1>
-            <p class="hero-subtitle">LUXURY AVANT-GARDE</p>
-            <a href="shop.html" class="btn">EXPLORE COLLECTION</a>
+    <!-- Admin Content (Hidden by default) -->
+    <div class="admin-content" id="adminContent">
+        <div class="admin-nav">
+            <button class="admin-nav-btn active" onclick="showAdminSection('products')">Products</button>
+            <button class="admin-nav-btn" onclick="showAdminSection('addProduct')">Add Product</button>
+            <button class="admin-nav-btn" onclick="showAdminSection('users')">User Activity</button>
+            <button class="admin-nav-btn" onclick="adminLogout()" style="margin-left: auto; color: #ff4444;">Logout</button>
         </div>
-    </section>
 
-    <!-- Featured -->
-    <section class="shop-section">
-        <div class="container">
-            <h2 class="section-title">CURRENT SELECTION</h2>
-            
-            <div class="products-grid">
-                <!-- Rick Owens -->
-                <div class="product-card">
-                    <img src="https://cdn.shopify.com/s/files/1/0266/5765/9343/products/RICKOWENS_SS21_GETHBOOTS_LEATHER_MILK_1_1800x.jpg?v=1614296822" 
-                         alt="Rick Owens Geobasket" class="product-image">
-                    <div class="product-info">
-                        <p class="product-brand">RICK OWENS</p>
-                        <h3 class="product-name">GEOBASKET LEATHER SNEAKERS</h3>
-                        <p class="product-price">€540</p>
-                        <button class="btn-add" onclick="addToCart({id: 1, name: 'RICK OWENS GEOBASKET LEATHER SNEAKERS', price: 540, brand: 'RICK OWENS', category: 'sneakers', image: 'https://cdn.shopify.com/s/files/1/0266/5765/9343/products/RICKOWENS_SS21_GETHBOOTS_LEATHER_MILK_1_1800x.jpg?v=1614296822'})">
-                            ADD TO CART
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Balenciaga -->
-                <div class="product-card">
-                    <img src="https://balenciaga.dam.kering.com/m/38960d5fa3c3b5c/Large-692359TWCG11000_F.jpg?v=3" 
-                         alt="Balenciaga Track" class="product-image">
-                    <div class="product-info">
-                        <p class="product-brand">BALENCIAGA</p>
-                        <h3 class="product-name">TRACK 2 SNEAKERS BLACK</h3>
-                        <p class="product-price"><span>€950</span> €428</p>
-                        <button class="btn-add" onclick="addToCart({id: 2, name: 'BALENCIAGA TRACK 2 SNEAKERS BLACK', price: 428, brand: 'BALENCIAGA', category: 'sneakers', image: 'https://balenciaga.dam.kering.com/m/38960d5fa3c3b5c/Large-692359TWCG11000_F.jpg?v=3'})">
-                            ADD TO CART
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Margiela -->
-                <div class="product-card">
-                    <img src="https://www.maisonmargiela.com/on/demandware.static/-/Sites-margielaEU-Library/default/dw9c67542e/images/22AW/MWM0124761-23A_1.jpg" 
-                         alt="Maison Margiela Tabi" class="product-image">
-                    <div class="product-info">
-                        <p class="product-brand">MAISON MARGIELA</p>
-                        <h3 class="product-name">TABI ANKLE BOOTS</h3>
-                        <p class="product-price">€625</p>
-                        <button class="btn-add" onclick="addToCart({id: 3, name: 'MAISON MARGIELA TABI ANKLE BOOTS', price: 625, brand: 'MAISON MARGIELA', category: 'boots', image: 'https://www.maisonmargiela.com/on/demandware.static/-/Sites-margielaEU-Library/default/dw9c67542e/images/22AW/MWM0124761-23A_1.jpg'})">
-                            ADD TO CART
-                        </button>
-                    </div>
-                </div>
+        <!-- Products Management Section -->
+        <div class="admin-section active" id="productsSection">
+            <h2>Manage Products</h2>
+            <div id="adminProductsGrid" class="products-grid" style="margin-top: 20px;">
+                <!-- Products will be loaded here -->
             </div>
         </div>
-    </section>
 
-    <footer class="footer">
-        <div class="container">
-            <p>© 2024 GOTYXAN-PRO — BERLIN</p>
+        <!-- Add Product Section -->
+        <div class="admin-section" id="addProductSection">
+            <h2>Add New Product</h2>
+            <div class="add-product-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productName">Product Name</label>
+                        <input type="text" id="productName" placeholder="e.g., Rick Owens Hoodie">
+                    </div>
+                    <div class="form-group">
+                        <label for="productBrand">Brand</label>
+                        <input type="text" id="productBrand" value="RICKOWENS" placeholder="Brand name">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productCode">Product Code</label>
+                        <input type="text" id="productCode" placeholder="e.g., 6680 306">
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">Price ($)</label>
+                        <input type="number" id="productPrice" placeholder="e.g., 450">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="productDescription">Description</label>
+                    <textarea id="productDescription" placeholder="Product description" style="width: 100%; height: 100px; padding: 12px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="productSizes">Sizes (comma separated)</label>
+                    <input type="text" id="productSizes" placeholder="e.g., S, M, L, XL">
+                </div>
+                
+                <div class="form-group">
+                    <label>Product Image</label>
+                    <div class="image-upload" onclick="document.getElementById('imageInput').click()">
+                        <p>Click to upload image or paste URL</p>
+                        <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+                        <input type="text" id="imageUrl" placeholder="Or enter image URL" style="width: 100%; margin-top: 10px; padding: 8px;">
+                        <img id="imagePreview" class="preview-image" alt="Preview">
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="addProduct()">Add Product</button>
+            </div>
         </div>
-    </footer>
 
-    <script src="js/cart.js"></script>
+        <!-- User Activity Section -->
+        <div class="admin-section" id="usersSection">
+            <h2>User Activity</h2>
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Action</th>
+                        <th>Product</th>
+                        <th>Time</th>
+                        <th>IP Address</th>
+                    </tr>
+                </thead>
+                <tbody id="userActivityTable">
+                    <!-- User activity will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Main Site Content -->
+    <div class="container" id="mainContent">
+        <h1 class="page-title">Rick Owens Collection</h1>
+        <div class="products-grid" id="productsGrid">
+            <!-- Products will be loaded here dynamically -->
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
     <script>
-        // Simple cart functions
-        function updateCartCount() {
-            const cart = JSON.parse(localStorage.getItem('gotyxan_cart') || '[]');
-            const count = cart.reduce((total, item) => total + item.quantity, 0);
-            document.querySelectorAll('.cart-count').forEach(el => {
-                el.textContent = count;
+        // Database (using localStorage)
+        const DB = {
+            products: JSON.parse(localStorage.getItem('rick_owens_products')) || [
+                {
+                    id: 1,
+                    name: "Rick Owens Hoodie",
+                    brand: "RICKOWENS",
+                    code: "6680 306",
+                    price: 450,
+                    description: "Black hoodie with signature Rick Owens design",
+                    sizes: ["S", "M", "L", "XL"],
+                    image: "https://example.com/images/rick-owens-hoodie.jpg"
+                },
+                {
+                    id: 2,
+                    name: "Crew Neck Pullover",
+                    brand: "RICKOWENS",
+                    code: "6680 307",
+                    price: 380,
+                    description: "Minimalist crew neck pullover",
+                    sizes: ["M", "L", "XL"],
+                    image: "https://example.com/images/crew-neck-pullover.jpg"
+                }
+            ],
+            
+            userActivity: JSON.parse(localStorage.getItem('user_activity')) || [],
+            
+            saveProducts: function() {
+                localStorage.setItem('rick_owens_products', JSON.stringify(this.products));
+            },
+            
+            saveActivity: function() {
+                localStorage.setItem('user_activity', JSON.stringify(this.userActivity));
+            },
+            
+            addProduct: function(product) {
+                product.id = this.products.length > 0 ? Math.max(...this.products.map(p => p.id)) + 1 : 1;
+                product.createdAt = new Date().toISOString();
+                this.products.push(product);
+                this.saveProducts();
+                return product;
+            },
+            
+            logActivity: function(action, productName, userId = null) {
+                const activity = {
+                    id: this.userActivity.length + 1,
+                    userId: userId || 'guest_' + Math.random().toString(36).substr(2, 9),
+                    action: action,
+                    product: productName,
+                    timestamp: new Date().toISOString(),
+                    ip: '192.168.1.' + Math.floor(Math.random() * 255) // Mock IP for demo
+                };
+                this.userActivity.push(activity);
+                this.saveActivity();
+                return activity;
+            }
+        };
+
+        // User Tracking
+        let userId = localStorage.getItem('user_id');
+        if (!userId) {
+            userId = 'user_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('user_id', userId);
+        }
+
+        // Track page view
+        DB.logActivity('Page View', 'Homepage', userId);
+
+        // Admin State
+        let isAdminLoggedIn = false;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+            loadAdminProducts();
+            loadUserActivity();
+        });
+
+        // Admin Functions
+        function showAdminLogin() {
+            document.getElementById('adminLoginModal').style.display = 'flex';
+        }
+
+        function adminLogin() {
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            if (username === 'mellory' && password === '45oponof') {
+                isAdminLoggedIn = true;
+                document.getElementById('adminLoginModal').style.display = 'none';
+                document.getElementById('adminContent').style.display = 'block';
+                document.getElementById('mainContent').style.display = 'none';
+                showNotification('Admin login successful');
+            } else {
+                showNotification('Invalid credentials', 'error');
+            }
+        }
+
+        function adminLogout() {
+            isAdminLoggedIn = false;
+            document.getElementById('adminContent').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            showNotification('Logged out');
+        }
+
+        function showAdminSection(section) {
+            // Update navigation
+            document.querySelectorAll('.admin-nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show section
+            document.querySelectorAll('.admin-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            document.getElementById(section + 'Section').classList.add('active');
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    document.getElementById('imageUrl').value = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function addProduct() {
+            const product = {
+                name: document.getElementById('productName').value,
+                brand: document.getElementById('productBrand').value,
+                code: document.getElementById('productCode').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                description: document.getElementById('productDescription').value,
+                sizes: document.getElementById('productSizes').value.split(',').map(s => s.trim()),
+                image: document.getElementById('imageUrl').value || 'https://via.placeholder.com/600x800'
+            };
+
+            if (!product.name || !product.code) {
+                showNotification('Please fill in required fields', 'error');
+                return;
+            }
+
+            DB.addProduct(product);
+            loadProducts();
+            loadAdminProducts();
+            
+            // Clear form
+            document.getElementById('productName').value = '';
+            document.getElementById('productCode').value = '';
+            document.getElementById('productPrice').value = '';
+            document.getElementById('productDescription').value = '';
+            document.getElementById('productSizes').value = '';
+            document.getElementById('imageUrl').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            
+            showNotification('Product added successfully!');
+            showAdminSection('products');
+        }
+
+        function deleteProduct(productId) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                DB.products = DB.products.filter(p => p.id !== productId);
+                DB.saveProducts();
+                loadProducts();
+                loadAdminProducts();
+                showNotification('Product deleted');
+            }
+        }
+
+        // Load Functions
+        function loadProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+            
+            DB.products.forEach(product => {
+                const productCard = `
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/600x800?text=Rick+Owens'">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-brand">${product.brand}</div>
+                            <h2 class="product-name">${product.name}</h2>
+                            <div class="product-price">$${product.price}</div>
+                            <div class="product-code">${product.code}</div>
+                            <button class="add-to-cart-btn" onclick="addToCart(${product.id})">ADD TO CART</button>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += productCard;
             });
         }
-        
-        function addToCart(product) {
-            let cart = JSON.parse(localStorage.getItem('gotyxan_cart') || '[]');
-            const existingItem = cart.find(item => item.id === product.id);
+
+        function loadAdminProducts() {
+            const grid = document.getElementById('adminProductsGrid');
+            grid.innerHTML = '';
             
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({...product, quantity: 1});
-            }
-            
-            localStorage.setItem('gotyxan_cart', JSON.stringify(cart));
-            updateCartCount();
-            
-            // Show notification
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 100px;
-                right: 20px;
-                background: white;
-                color: black;
-                padding: 15px 25px;
-                font-size: 12px;
-                letter-spacing: 2px;
-                text-transform: uppercase;
-                z-index: 10000;
-                border: 1px solid black;
-            `;
-            notification.textContent = `ADDED: ${product.name}`;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => notification.remove(), 3000);
+            DB.products.forEach(product => {
+                const productCard = `
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="${product.image}" alt="${product.name}" class="product-image" style="height: 250px;">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-brand">${product.brand}</div>
+                            <h2 class="product-name">${product.name}</h2>
+                            <div class="product-price">$${product.price}</div>
+                            <div class="product-code">${product.code}</div>
+                            <div style="font-size: 12px; color: #666; margin: 10px 0;">Sizes: ${product.sizes.join(', ')}</div>
+                            <button class="btn" style="background: #ff4444; margin-top: 10px;" onclick="deleteProduct(${product.id})">Delete</button>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += productCard;
+            });
         }
-        
-        // Initialize
-        document.addEventListener('DOMContentLoaded', updateCartCount);
+
+        function loadUserActivity() {
+            const table = document.getElementById('userActivityTable');
+            table.innerHTML = '';
+            
+            DB.userActivity.slice(-20).reverse().forEach(activity => {
+                const row = `
+                    <tr>
+                        <td>${activity.userId.substring(0, 8)}...</td>
+                        <td>${activity.action}</td>
+                        <td>${activity.product}</td>
+                        <td>${new Date(activity.timestamp).toLocaleString()}</td>
+                        <td>${activity.ip}</td>
+                    </tr>
+                `;
+                table.innerHTML += row;
+            });
+        }
+
+        // Cart Function
+        function addToCart(productId) {
+            const product = DB.products.find(p => p.id === productId);
+            if (product) {
+                DB.logActivity('Add to Cart', product.name, userId);
+                showNotification(`${product.name} added to cart`);
+                
+                // Update cart count
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cart.push(product);
+                localStorage.setItem('cart', JSON.stringify(cart));
+            }
+        }
+
+        // Notification
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.background = type === 'error' ? '#ff4444' : '#000';
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Prevent right-click on admin panel
+        document.addEventListener('contextmenu', function(e) {
+            if (isAdminLoggedIn && e.target.closest('.admin-content')) {
+                e.preventDefault();
+            }
+        });
     </script>
 </body>
 </html>
