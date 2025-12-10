@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Rick Owens</title>
+    <style>
+        /* ===== MINIMALIST RICK OWENS ADMIN STYLE ===== */
+        :root {
+            --black: #000;
+            --white: #fff;
+            --gray: #f5f5f5;
+            --dark-gray: #222;
+            --light-gray: #eee;
+            --red: #ff4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: var(--white);
+            color: var(--black);
+            min-height: 100vh;
+        }
+        
+        /* ===== ADMIN LOGIN PAGE ===== */
+        .admin-login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--white);
+        }
+        
+        .admin-login-container {
+            width: 90%;
+            max-width: 400px;
+            padding: 40px;
+            border: 1px solid var(--light-gray);
+        }
+        
+        .admin-logo {
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .admin-login-form h2 {
+            font-weight: 300;
+            font-size: 24px;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            color: #666;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--light-gray);
+            font-size: 14px;
+            letter-spacing: 1px;
+            background: transparent;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            margin-top: 10px;
+        }
+        
+        .login-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #999;
+            text-decoration: none;
+        }
+        
+        /* ===== ADMIN PANEL ===== */
+        .admin-panel {
+            display: none;
+            min-height: 100vh;
+        }
+        
+        .admin-header {
+            padding: 25px 40px;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .admin-title {
+            font-weight: 300;
+            font-size: 18px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--black);
+            padding: 8px 20px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: var(--black);
+            color: var(--white);
+        }
+        
+        .view-site-btn {
+            background: transparent;
+            border: 1px solid var(--light-gray);
+            padding: 8px 20px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--black);
+            display: inline-block;
+        }
+        
+        /* ===== ADMIN TABS ===== */
+        .admin-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--light-gray);
+            background: var(--white);
+            position: sticky;
+            top: 73px;
+            z-index: 99;
+        }
+        
+        .admin-tab {
+            padding: 20px 30px;
+            background: transparent;
+            border: none;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .admin-tab:hover {
+            color: var(--black);
+        }
+        
+        .admin-tab.active {
+            color: var(--black);
+            border-bottom: 2px solid var(--black);
+        }
+        
+        /* ===== ADMIN CONTENT ===== */
+        .admin-content {
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .admin-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .admin-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .section-title {
+            font-weight: 300;
+            font-size: 24px;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+        
+        /* ===== PRODUCTS MANAGEMENT ===== */
+        .products-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            border: 1px solid var(--light-gray);
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 32px;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #666;
+        }
+        
+        .admin-products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .admin-product-card {
+            border: 1px solid var(--light-gray);
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .admin-product-card:hover {
+            border-color: var(--black);
+            transform: translateY(-5px);
+        }
+        
+        .admin-product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background: var(--gray);
+        }
+        
+        .admin-product-info {
+            padding: 20px;
+        }
+        
+        .admin-product-brand {
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: #777;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        
+        .admin-product-name {
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .admin-product-details {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .admin-product-price {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .admin-product-code {
+            font-size: 11px;
+            color: #aaa;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .delete-btn {
+            flex: 1;
+            padding: 10px;
+            background: transparent;
+            color: var(--red);
+            border: 1px solid var(--red);
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .delete-btn:hover {
+            background: var(--red);
+            color: var(--white);
+        }
+        
+        .edit-btn {
+            flex: 1;
+            padding: 10px;
+            background: transparent;
+            color: var(--black);
+            border: 1px solid var(--black);
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .edit-btn:hover {
+            background: var(--black);
+            color: var(--white);
+        }
+        
+        /* ===== ADD PRODUCT FORM ===== */
+        .add-product-form {
+            max-width: 600px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--light-gray);
+            font-size: 14px;
+            background: transparent;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .image-upload-area {
+            border: 2px dashed var(--light-gray);
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        
+        .image-upload-area:hover {
+            border-color: #999;
+            background: var(--gray);
+        }
+        
+        .image-upload-area p {
+            color: #999;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        
+        .image-preview {
+            max-width: 200px;
+            max-height: 200px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .add-product-btn {
+            padding: 16px 40px;
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            margin-top: 20px;
+        }
+        
+        .add-product-btn:hover {
+            opacity: 0.9;
+        }
+        
+        /* ===== USER ACTIVITY ===== */
+        .activity-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid var(--light-gray);
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn.active {
+            background: var(--black);
+            color: var(--white);
+            border-color: var(--black);
+        }
+        
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        
+        .users-table th {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid var(--light-gray);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            background: var(--gray);
+        }
+        
+        .users-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--light-gray);
+            vertical-align: top;
+        }
+        
+        .users-table tr:hover {
+            background: var(--gray);
+        }
+        
+        .user-id {
+            font-family: monospace;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .action-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--gray);
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .action-add {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .action-view {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+        
+        .action-cart {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+        
+        .action-delete {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        /* ===== NOTIFICATION ===== */
+        .notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--black);
+            color: var(--white);
+            padding: 15px 25px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 1000;
+            display: none;
+            max-width: 300px;
+        }
+        
+        .notification.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .notification.success {
+            background: #2e7d32;
+        }
+        
+        .notification.error {
+            background: #c62828;
+        }
+        
+        .notification.info {
+            background: #1565c0;
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .admin-header {
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .admin-actions {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .admin-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+                top: 130px;
+            }
+            
+            .admin-content {
+                padding: 20px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .users-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .admin-login-container {
+                padding: 20px;
+                border: none;
+            }
+            
+            .products-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Login Page -->
+    <div class="admin-login-page" id="adminLoginPage">
+        <div class="admin-login-container">
+            <div class="admin-logo">RICK OWENS ADMIN</div>
+            <div class="admin-login-form">
+                <h2>Admin Login</h2>
+                <div class="form-group">
+                    <label for="adminUsername">USERNAME</label>
+                    <input type="text" id="adminUsername" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">PASSWORD</label>
+                    <input type="password" id="adminPassword" placeholder="Enter password">
+                </div>
+                <button class="login-btn" onclick="adminLogin()">LOGIN</button>
+                <a href="../" class="back-link">← Back to Main Site</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <div class="admin-title">RICK OWENS ADMIN PANEL</div>
+            <div class="admin-actions">
+                <a href="../" class="view-site-btn" target="_blank">VIEW SITE</a>
+                <button class="logout-btn" onclick="logoutAdmin()">LOGOUT</button>
+            </div>
+        </div>
+        
+        <div class="admin-tabs">
+            <button class="admin-tab active" onclick="showAdminTab('dashboard')">Dashboard</button>
+            <button class="admin-tab" onclick="showAdminTab('products')">Products</button>
+            <button class="admin-tab" onclick="showAdminTab('add')">Add Product</button>
+            <button class="admin-tab" onclick="showAdminTab('activity')">User Activity</button>
+        </div>
+        
+        <div class="admin-content">
+            <!-- Dashboard Tab -->
+            <div class="admin-section active" id="dashboardTab">
+                <h2 class="section-title">Dashboard</h2>
+                
+                <div class="products-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalProducts">0</div>
+                        <div class="stat-label">Total Products</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="todayActivity">0</div>
+                        <div class="stat-label">Today's Activity</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalUsers">0</div>
+                        <div class="stat-label">Unique Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="cartAdds">0</div>
+                        <div class="stat-label">Cart Adds</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 40px;">
+                    <h3 style="font-size: 14px; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase;">Recent Activity</h3>
+                    <div id="recentActivity">
+                        <!-- Recent activity will load here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Products Management Tab -->
+            <div class="admin-section" id="productsTab">
+                <h2 class="section-title">Manage Products</h2>
+                <div id="adminProductsGrid" class="admin-products-grid">
+                    <!-- Products will load here -->
+                </div>
+            </div>
+            
+            <!-- Add Product Tab -->
+            <div class="admin-section" id="addTab">
+                <h2 class="section-title">Add New Product</h2>
+                <div class="add-product-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productName">Product Name *</label>
+                            <input type="text" id="productName" placeholder="e.g., Rick Owens Hoodie">
+                        </div>
+                        <div class="form-group">
+                            <label for="productCode">Product Code *</label>
+                            <input type="text" id="productCode" placeholder="e.g., 6680 306">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productPrice">Price ($) *</label>
+                            <input type="number" id="productPrice" placeholder="450" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="productCategory">Category</label>
+                            <input type="text" id="productCategory" placeholder="e.g., Hoodies, T-Shirts">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group form-full-width">
+                        <label for="productDescription">Description</label>
+                        <textarea id="productDescription" placeholder="Product description..."></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productSizes">Sizes (comma separated)</label>
+                            <input type="text" id="productSizes" placeholder="S, M, L, XL">
+                        </div>
+                        <div class="form-group">
+                            <label for="productColors">Colors (comma separated)</label>
+                            <input type="text" id="productColors" placeholder="Black, White, Gray">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group form-full-width">
+                        <label>Product Images</label>
+                        <div class="image-upload-area" onclick="document.getElementById('imageInput').click()">
+                            <p>CLICK TO UPLOAD IMAGE OR DRAG & DROP</p>
+                            <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+                            <p style="font-size: 11px; color: #999; margin: 10px 0;">OR</p>
+                            <input type="text" id="imageUrl" placeholder="Paste image URL here" style="width: 100%; padding: 10px; border: 1px solid #eee;">
+                            <img id="imagePreview" class="image-preview" alt="Image preview">
+                        </div>
+                    </div>
+                    
+                    <button class="add-product-btn" onclick="addProduct()">ADD PRODUCT</button>
+                </div>
+            </div>
+            
+            <!-- User Activity Tab -->
+            <div class="admin-section" id="activityTab">
+                <h2 class="section-title">User Activity</h2>
+                
+                <div class="activity-filters">
+                    <button class="filter-btn active" onclick="filterActivity('all')">All</button>
+                    <button class="filter-btn" onclick="filterActivity('view')">Page Views</button>
+                    <button class="filter-btn" onclick="filterActivity('cart')">Cart Adds</button>
+                    <button class="filter-btn" onclick="filterActivity('admin')">Admin Actions</button>
+                    <button class="filter-btn" onclick="filterActivity('today')">Today</button>
+                </div>
+                
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>User</th>
+                            <th>Action</th>
+                            <th>Product</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userActivityTable">
+                        <!-- Activity logs will load here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // ===== DATABASE =====
+        const DB = {
+            // Get products from localStorage (shared with main site)
+            get products() {
+                return JSON.parse(localStorage.getItem('rick_owens_products')) || [
+                    {
+                        id: 1,
+                        name: "Rick Owens Hoodie",
+                        brand: "RICKOWENS",
+                        code: "6680 306",
+                        price: 450,
+                        description: "Black hoodie with signature Rick Owens design",
+                        sizes: ["S", "M", "L", "XL"],
+                        colors: ["Black"],
+                        category: "Hoodies",
+                        image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: 2,
+                        name: "Crew Neck Pullover",
+                        brand: "RICKOWENS",
+                        code: "6680 307",
+                        price: 380,
+                        description: "Minimalist crew neck pullover",
+                        sizes: ["M", "L", "XL"],
+                        colors: ["Black", "White"],
+                        category: "Pullovers",
+                        image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+            },
+            
+            set products(data) {
+                localStorage.setItem('rick_owens_products', JSON.stringify(data));
+            },
+            
+            // User activity
+            get userActivity() {
+                return JSON.parse(localStorage.getItem('user_activity')) || [];
+            },
+            
+            set userActivity(data) {
+                localStorage.setItem('user_activity', JSON.stringify(data));
+            },
+            
+            // Save product
+            addProduct(product) {
+                const products = this.products;
+                product.id = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+                product.brand = "RICKOWENS";
+                product.createdAt = new Date().toISOString();
+                product.updatedAt = new Date().toISOString();
+                
+                if (!product.colors) product.colors = ["Black"];
+                if (!product.category) product.category = "Other";
+                
+                products.push(product);
+                this.products = products;
+                return product;
+            },
+            
+            // Update product
+            updateProduct(id, updates) {
+                const products = this.products;
+                const index = products.findIndex(p => p.id === id);
+                if (index !== -1) {
+                    products[index] = { ...products[index], ...updates, updatedAt: new Date().toISOString() };
+                    this.products = products;
+                }
+            },
+            
+            // Delete product
+            deleteProduct(id) {
+                const products = this.products.filter(p => p.id !== id);
+                this.products = products;
+            },
+            
+            // Log activity
+            logActivity(action, productName = "", details = "") {
+                const activity = {
+                    id: this.userActivity.length + 1,
+                    userId: localStorage.getItem('user_id') || 'guest_' + Math.random().toString(36).substr(2, 6),
+                    action: action,
+                    product: productName,
+                    details: details,
+                    timestamp: new Date().toISOString(),
+                    date: new Date().toLocaleDateString(),
+                    time: new Date().toLocaleTimeString(),
+                    ip: '192.168.' + Math.floor(Math.random() * 255) + '.' + Math.floor(Math.random() * 255)
+                };
+                
+                const activities = this.userActivity;
+                activities.push(activity);
+                this.userActivity = activities;
+                
+                return activity;
+            },
+            
+            // Get stats
+            getStats() {
+                const today = new Date().toDateString();
+                const todayActivities = this.userActivity.filter(a => 
+                    new Date(a.timestamp).toDateString() === today
+                );
+                
+                const uniqueUsers = [...new Set(this.userActivity.map(a => a.userId))];
+                const cartAdds = this.userActivity.filter(a => a.action.includes('Cart')).length;
+                
+                return {
+                    totalProducts: this.products.length,
+                    todayActivity: todayActivities.length,
+                    totalUsers: uniqueUsers.length,
+                    cartAdds: cartAdds
+                };
+            }
+        };
+
+        // ===== INITIALIZATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if admin is already logged in
+            if (localStorage.getItem('admin_logged_in') === 'true') {
+                showAdminPanel();
+            } else {
+                showLoginPage();
+            }
+            
+            // Log admin page view
+            DB.logActivity('Admin Page View', 'System');
+        });
+
+        // ===== AUTH FUNCTIONS =====
+        function adminLogin() {
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            if (username === 'mellory' && password === '45oponof') {
+                localStorage.setItem('admin_logged_in', 'true');
+                showAdminPanel();
+                DB.logActivity('Admin Login', 'System', 'Successful login');
+                showNotification('Login successful!', 'success');
+            } else {
+                showNotification('Invalid username or password', 'error');
+                DB.logActivity('Admin Login Failed', 'System', `Attempt with username: ${username}`);
+            }
+        }
+
+        function logoutAdmin() {
+            localStorage.removeItem('admin_logged_in');
+            showLoginPage();
+            DB.logActivity('Admin Logout', 'System');
+            showNotification('Logged out successfully', 'success');
+        }
+
+        function showLoginPage() {
+            document.getElementById('adminLoginPage').style.display = 'flex';
+            document.getElementById('adminPanel').style.display = 'none';
+            // Clear password field
+            document.getElementById('adminPassword').value = '';
+        }
+
+        function showAdminPanel() {
+            document.getElementById('adminLoginPage').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            loadDashboard();
+            loadAdminProducts();
+        }
+
+        // ===== TAB NAVIGATION =====
+        function showAdminTab(tabName) {
+            // Update active tab
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show active section
+            document.querySelectorAll('.admin-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            // Load data for the tab
+            switch(tabName) {
+                case 'dashboard':
+                    loadDashboard();
+                    break;
+                case 'products':
+                    loadAdminProducts();
+                    break;
+                case 'activity':
+                    loadUserActivity();
+                    break;
+            }
+        }
+
+        // ===== DASHBOARD =====
+        function loadDashboard() {
+            const stats = DB.getStats();
+            
+            // Update stat cards
+            document.getElementById('totalProducts').textContent = stats.totalProducts;
+            document.getElementById('todayActivity').textContent = stats.todayActivity;
+            document.getElementById('totalUsers').textContent = stats.totalUsers;
+            document.getElementById('cartAdds').textContent = stats.cartAdds;
+            
+            // Load recent activity
+            loadRecentActivity();
+        }
+
+        function loadRecentActivity() {
+            const container = document.getElementById('recentActivity');
+            const recent = DB.userActivity.slice(-5).reverse();
+            
+            if (recent.length === 0) {
+                container.innerHTML = '<p style="color: #999; font-style: italic;">No recent activity</p>';
+                return;
+            }
+            
+            let html = '';
+            recent.forEach(activity => {
+                const actionClass = getActionClass(activity.action);
+                html += `
+                    <div style="padding: 15px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 15px;">
+                        <span class="action-badge ${actionClass}" style="min-width: 80px; text-align: center;">${activity.action}</span>
+                        <div style="flex: 1;">
+                            <div style="font-size: 13px;">${activity.product || 'System'}</div>
+                            <div style="font-size: 11px; color: #999;">${activity.time} • ${activity.userId.substring(0, 8)}...</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // ===== PRODUCT MANAGEMENT =====
+        function loadAdminProducts() {
+            const grid = document.getElementById('adminProductsGrid');
+            const products = DB.products;
+            
+            if (products.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #999; padding: 40px;">No products yet. Add your first product!</p>';
+                return;
+            }
+            
+            let html = '';
+            products.forEach(product => {
+                html += `
+                    <div class="admin-product-card">
+                        <img src="${product.image}" alt="${product.name}" class="admin-product-image" onerror="this.src='https://images.unsplash.com/photo-1556821840-3a63f95609a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'">
+                        <div class="admin-product-info">
+                            <div class="admin-product-brand">${product.brand}</div>
+                            <div class="admin-product-name">${product.name}</div>
+                            <div class="admin-product-details">${product.description}</div>
+                            <div class="admin-product-price">$${product.price}</div>
+                            <div class="admin-product-code">${product.code}</div>
+                            <div style="font-size: 11px; color: #666; margin-bottom: 15px;">
+                                ${product.sizes ? `Sizes: ${product.sizes.join(', ')}` : ''}
+                                ${product.colors ? `<br>Colors: ${product.colors.join(', ')}` : ''}
+                            </div>
+                            <div class="product-actions">
+                                <button class="edit-btn" onclick="editProduct(${product.id})">EDIT</button>
+                                <button class="delete-btn" onclick="deleteProduct(${product.id})">DELETE</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            grid.innerHTML = html;
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // For demo, we'll use a data URL. In production, you would upload to a server.
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    document.getElementById('imageUrl').value = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function addProduct() {
+            const product = {
+                name: document.getElementById('productName').value.trim(),
+                code: document.getElementById('productCode').value.trim(),
+                price: parseFloat(document.getElementById('productPrice').value) || 0,
+                description: document.getElementById('productDescription').value.trim(),
+                sizes: document.getElementById('productSizes').value.split(',').map(s => s.trim()).filter(s => s),
+                colors: document.getElementById('productColors').value.split(',').map(c => c.trim()).filter(c => c),
+                category: document.getElementById('productCategory').value.trim() || 'Other',
+                image: document.getElementById('imageUrl').value.trim() || 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
+            };
+
+            // Validation
+            if (!product.name || !product.code || product.price <= 0) {
+                showNotification('Please fill in all required fields (Name, Code, Price)', 'error');
+                return;
+            }
+
+            // Add product to database
+            DB.addProduct(product);
+            DB.logActivity('Product Added', product.name, `Code: ${product.code}, Price: $${product.price}`);
+            
+            // Clear form
+            document.getElementById('productName').value = '';
+            document.getElementById('productCode').value = '';
+            document.getElementById('productPrice').value = '';
+            document.getElementById('productDescription').value = '';
+            document.getElementById('productSizes').value = '';
+            document.getElementById('productColors').value = '';
+            document.getElementById('productCategory').value = '';
+            document.getElementById('imageUrl').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            
+            // Update UI
+            loadAdminProducts();
+            loadDashboard();
+            
+            // Show success message and switch to products tab
+            showNotification(`"${product.name}" added successfully!`, 'success');
+            showAdminTab('products');
+        }
+
+        function editProduct(productId) {
+            const product = DB.products.find(p => p.id === productId);
+            if (!product) return;
+            
+            // For now, we'll just delete and re-add. In a real app, you'd have an edit form.
+            if (confirm(`Edit product "${product.name}"?`)) {
+                // Pre-fill the add form with product data
+                document.getElementById('productName').value = product.name;
+                document.getElementById('productCode').value = product.code;
+                document.getElementById('productPrice').value = product.price;
+                document.getElementById('productDescription').value = product.description;
+                document.getElementById('productSizes').value = product.sizes ? product.sizes.join(', ') : '';
+                document.getElementById('productColors').value = product.colors ? product.colors.join(', ') : '';
+                document.getElementById('productCategory').value = product.category || '';
+                document.getElementById('imageUrl').value = product.image;
+                
+                // Show preview if image exists
+                if (product.image) {
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = product.image;
+                    preview.style.display = 'block';
+                }
+                
+                // Switch to add tab
+                showAdminTab('add');
+                showNotification(`Editing "${product.name}". Update fields and click ADD PRODUCT to save changes.`, 'info');
+                
+                // Store the product ID for update
+                document.getElementById('productName').dataset.editId = productId;
+            }
+        }
+
+        function deleteProduct(productId) {
+            const product = DB.products.find(p => p.id === productId);
+            if (!product) return;
+            
+            if (confirm(`Are you sure you want to delete "${product.name}"? This action cannot be undone.`)) {
+                DB.deleteProduct(productId);
+                DB.logActivity('Product Deleted', product.name, `Code: ${product.code}`);
+                
+                loadAdminProducts();
+                loadDashboard();
+                showNotification(`"${product.name}" deleted successfully`, 'success');
+            }
+        }
+
+        // ===== USER ACTIVITY =====
+        let currentFilter = 'all';
+
+        function filterActivity(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            loadUserActivity();
+        }
+
+        function loadUserActivity() {
+            const table = document.getElementById('userActivityTable');
+            let activities = DB.userActivity.slice().reverse(); // Show newest first
+            
+            // Apply filter
+            switch(currentFilter) {
+                case 'view':
+                    activities = activities.filter(a => a.action.includes('View'));
+                    break;
+                case 'cart':
+                    activities = activities.filter(a => a.action.includes('Cart'));
+                    break;
+                case 'admin':
+                    activities = activities.filter(a => a.action.includes('Admin') || a.action.includes('Product'));
+                    break;
+                case 'today':
+                    const today = new Date().toDateString();
+                    activities = activities.filter(a => new Date(a.timestamp).toDateString() === today);
+                    break;
+            }
+            
+            if (activities.length === 0) {
+                table.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px; color: #999;">No activity found</td></tr>';
+                return;
+            }
+            
+            let html = '';
+            activities.forEach(activity => {
+                const actionClass = getActionClass(activity.action);
+                html += `
+                    <tr>
+                        <td>
+                            <div style="font-size: 12px; font-weight: 500;">${activity.date}</div>
+                            <div style="font-size: 11px; color: #999;">${activity.time}</div>
+                        </td>
+                        <td>
+                            <div class="user-id">${activity.userId.substring(0, 12)}...</div>
+                            <div style="font-size: 11px; color: #999;">${activity.ip}</div>
+                        </td>
+                        <td>
+                            <span class="action-badge ${actionClass}">${activity.action}</span>
+                        </td>
+                        <td>${activity.product || '-'}</td>
+                        <td style="font-size: 12px; color: #666;">${activity.details || '-'}</td>
+                    </tr>
+                `;
+            });
+            
+            table.innerHTML = html;
+        }
+
+        function getActionClass(action) {
+            if (action.includes('View')) return 'action-view';
+            if (action.includes('Cart')) return 'action-cart';
+            if (action.includes('Added') || action.includes('Login')) return 'action-add';
+            if (action.includes('Deleted') || action.includes('Failed')) return 'action-delete';
+            return '';
+        }
+
+        // ===== NOTIFICATION =====
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification show ' + type;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // ===== UTILITY FUNCTIONS =====
+        function formatDate(date) {
+            return new Date(date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+    </script>
+</body>
+</html>
