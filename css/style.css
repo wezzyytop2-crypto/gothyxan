@@ -670,7 +670,7 @@ body {
             font-weight: 400;
         }
 /* ------------------------------------------- */
-/* 📦 PRODUCT DETAILS PAGE (PDP) STYLES (ОБНОВЛЕННЫЕ СТИЛИ) */
+/* 📦 PRODUCT DETAILS PAGE (PDP) STYLES (ФИНАЛЬНЫЕ СТИЛИ) */
 /* ------------------------------------------- */
 
 .product-details-section {
@@ -678,12 +678,11 @@ body {
     min-height: 80vh;
 }
 
-/* 🖼️ НОВЫЙ МАКЕТ: Изображение слева, информация справа */
+/* 🖼️ МАКЕТ 3:4 (Изображение 3 части, Информация 4 части) */
 .product-details-layout {
     display: grid;
-    /* Уменьшаем изображение (3/5) и увеличиваем место для информации (2/5) */
-    grid-template-columns: 3fr 2fr;
-    gap: 100px;
+    grid-template-columns: 3fr 4fr; /* Новое соотношение для стильного вида */
+    gap: 70px;
     align-items: flex-start;
 }
 
@@ -693,23 +692,20 @@ body {
 
 .detail-image {
     width: 100%;
-    /* Уменьшаем высоту изображения, чтобы оно не доминировало */
-    max-height: 70vh;
+    max-height: 600px; /* Ограничиваем высоту */
     height: auto;
-    object-fit: cover;
+    object-fit: contain; /* Гарантирует, что фото не обрезается */
     background: var(--gray);
-    /* Добавляем небольшой отступ, чтобы информация справа начиналась выше */
     margin-top: -50px;
 }
 
 .product-info-area {
     padding-top: 50px;
-    /* Убираем sticky, чтобы вся информация прокручивалась вместе со страницей */
     position: static;
     top: auto;
 }
 
-/* ✒️ Стили текста (чтобы соответствовали минимализму) */
+/* ✒️ Стили текста (исправляем синий цвет) */
 .detail-brand {
     font-size: 12px;
     letter-spacing: 4px;
@@ -717,21 +713,24 @@ body {
     opacity: 0.7;
     margin-bottom: 15px;
     font-weight: 300;
+    color: var(--white); /* Явно белый цвет */
 }
 
 .detail-name {
     font-size: 32px;
     font-weight: 300;
     line-height: 1.2;
-    margin-bottom: 10px; /* Уменьшаем отступ */
+    margin-bottom: 10px;
+    color: var(--white); /* Явно белый цвет */
+    text-decoration: none;
 }
 
 .detail-price {
     font-size: 16px;
     font-weight: 400;
-    margin-bottom: 20px; /* Уменьшаем отступ */
+    margin-bottom: 20px;
     padding-bottom: 20px;
-    border-bottom: 1px solid var(--border); /* Добавляем разделитель под ценой */
+    border-bottom: 1px solid var(--border); /* Разделитель */
 }
 
     .detail-price span {
@@ -745,7 +744,6 @@ body {
 .size-selection {
     margin-top: 20px;
     margin-bottom: 40px;
-    /* Убрали border-top из старой версии */
     padding-top: 0;
 }
 
@@ -757,11 +755,17 @@ body {
     opacity: 0.8;
 }
 
+.size-options-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
 .size-option {
     background: var(--black);
     color: var(--white);
     border: 1px solid var(--border);
-    padding: 10px 15px; /* Немного уменьшаем кнопки */
+    padding: 10px 15px;
     font-size: 13px;
     cursor: pointer;
     transition: all 0.2s;
@@ -781,7 +785,7 @@ body {
 /* Add to Cart Button on Details Page */
 .btn-add-details {
     width: 100%;
-    padding: 22px 0; /* Немного увеличиваем для выразительности */
+    padding: 22px 0;
     margin-bottom: 50px;
 }
 
