@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHOP — GOTYXAN-PRO</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    <script src="firebase-config.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span>GOTYXAN</span><span>-PRO</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="shop.html" class="active">SHOP</a></li>
+                <li><a href="cart.html">CART <span class="cart-count">0</span></a></li>
+                <li><a href="checkout.html">CHECKOUT</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="shop-section">
+        <div class="container">
+            <h2 class="section-title">COLLECTION</h2>
+            
+            <div class="shop-content">
+                
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-brand="all" onclick="filterProducts('all')">ALL BRANDS</button>
+                    <button class="filter-tab" data-brand="RICK OWENS" onclick="filterProducts('RICK OWENS')">RICK OWENS</button>
+                    <button class="filter-tab" data-brand="BALENCIAGA" onclick="filterProducts('BALENCIAGA')">BALENCIAGA</button>
+                    <button class="filter-tab" data-brand="MAISON MARGIELA" onclick="filterProducts('MAISON MARGIELA')">MAISON MARGIELA</button>
+                    <button class="filter-tab" data-brand="ANN DEMEULEMEESTER" onclick="filterProducts('ANN DEMEULEMEESTER')">ANN DEMEULEMEESTER</button>
+                    <button class="filter-tab" data-brand="YOHJI YAMAMOTO" onclick="filterProducts('YOHJI YAMAMOTO')">YOHJI YAMAMOTO</button>
+                    <button class="filter-tab" data-brand="RAF SIMONS" onclick="filterProducts('RAF SIMONS')">RAF SIMONS</button>
+                </div>
+
+                <div class="products-grid" id="products-grid">
+                    <p class="loading-message">Loading products from server...</p>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 GOTYXAN-PRO — BERLIN</p>
+        </div>
+    </footer>
+
+    <script>
+        let allProducts = []; // Массив для хранения всех товаров из Firebase
+        let currentBrandFilter = 'all';
+
+        // --- 1. ФУНКЦИЯ ЗАГРУЗКИ ТОВАРОВ ИЗ FIREBASE ---
+        async function loadProductsFromFirebase() {
+            const productsGrid = document.getElementById('products-grid');
+            productsGrid.innerHTML = '<p class="loading-message">Loading products from server...</p>';
+
+            try {
+                // Получаем все документы из коллекции 'products', отсортированные по дате создания
+                const snapshot = await db.collection('products').orderBy('createdAt', 'desc').get();
+                
+                allProducts = snapshot.docs.map(doc => ({
+                    id: doc.id, // ID документа Firebase (для ссылки на product.html)
+                    ...doc.data()
+                }));
+
+                renderProductsGrid(allProducts); 
+            } catch (error) {
+                productsGrid.innerHTML = `<p class="error-message">Error loading products: ${error.message}</p>`;
+                console.error("Error loading products:", error);
+            }
+        }
+
+        // --- 2. ФУНКЦИЯ ОТОБРАЖЕНИЯ ТОВАРОВ ---
+        function renderProductsGrid(productsToRender) {
+            const productsGrid = document.getElementById('products-grid');
+            productsGrid.innerHTML = '';
+
+            if (productsToRender.length === 0) {
+                productsGrid.innerHTML = '<p style="text-align: center; margin-top: 50px;">No products found matching the criteria.</p>';
+                return;
+            }
+
+            productsToRender.forEach(product => {
+                const priceHtml = product.originalPrice
+                    ? `<span>€${product.originalPrice}</span> €${product.price}`
+                    : `€${product.price}`;
+
+                // product.id теперь - это ID документа в Firestore
+                const productCardHtml = `
+                    <a href="product.html?id=${product.id}" class="product-card">
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <div class="product-info">
+                            <p class="product-brand">${product.brand}</p>
+                            <h3 class="product-name">${product.name}</h3>
+                            <p class="product-price">${priceHtml}</p>
+                        </div>
+                    </a>
+                `;
+                productsGrid.innerHTML += productCardHtml;
+            });
+        }
+
+        // --- 3. ФУНКЦИЯ ПРИМЕНЕНИЯ ФИЛЬТРОВ К ДАННЫМ ---
+        function applyFilters() {
+            const filteredProducts = allProducts.filter(product => {
+                // Сравниваем brand из Firebase с выбранным фильтром
+                let matchesBrand = (currentBrandFilter === 'all' || product.brand === currentBrandFilter);
+                return matchesBrand;
+            });
+            renderProductsGrid(filteredProducts);
+        }
+
+        // --- 4. ФУНКЦИЯ ФИЛЬТРАЦИИ ПО БРЕНДУ ---
+        function filterProducts(brand) {
+            currentBrandFilter = brand;
+            
+            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+            const activeBrandButton = document.querySelector(`.filter-tab[data-brand="${brand}"]`);
+            if (activeBrandButton) { activeBrandButton.classList.add('active'); }
+            
+            applyFilters();
+        }
+
+        // --- CART FUNCTIONS ---
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('gotyxan_cart') || '[]');
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.querySelectorAll('.cart-count').forEach(el => {
+                el.textContent = count;
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartCount();
+            loadProductsFromFirebase();
+        });
+    </script>
+</body>
+</html>

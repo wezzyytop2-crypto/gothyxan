@@ -1,12 +1,17 @@
-/* GOTYXAN-PRO - Rick Owens Black Minimalism */
+/*
+|--------------------------------------------------------------------------
+| CSS СТИЛИ ДЛЯ GOTYXAN-PRO
+|--------------------------------------------------------------------------
+| Содержит базовые стили, стили для магазина, админ-панели и аутентификации.
+*/
+
+/* 1. БАЗОВЫЕ ПЕРЕМЕННЫЕ И СБРОС СТИЛЕЙ (RESET) */
 :root {
     --black: #000000;
-    --white: #FFFFFF;
-    --gray: #1A1A1A;
-    --light-gray: #2A2A2A;
+    --white: #ffffff;
+    --gray: #cccccc;
     --border: #333333;
-    --text: #FFFFFF;
-    --text-secondary: #888888;
+    --font-family: 'Arial', sans-serif;
 }
 
 * {
@@ -16,228 +21,173 @@
 }
 
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background: var(--black);
-    color: var(--text);
-    font-weight: 300;
-    letter-spacing: 0.5px;
-    min-height: 100vh;
+    font-family: var(--font-family);
+    background-color: var(--black);
+    color: var(--white);
+    line-height: 1.6;
 }
 
 .container {
-    max-width: 1400px;
+    width: 90%;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 40px;
 }
 
-/* 🔳 NAVIGATION - Black Bar */
+a {
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+    a:hover {
+        color: var(--gray);
+    }
+
+button {
+    cursor: pointer;
+    font-family: var(--font-family);
+}
+
+/* 2. НАВИГАЦИЯ (NAVBAR) */
 .navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: var(--black);
+    background-color: var(--black);
     border-bottom: 1px solid var(--border);
+    padding: 20px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
     z-index: 1000;
-    padding: 25px 0;
 }
 
 .nav-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 40px;
 }
 
-.logo {
-    font-family: 'Helvetica Neue', sans-serif;
-    font-size: 20px;
+.logo span:first-child {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 5px;
+}
+
+.logo span:last-child {
+    font-size: 24px;
     font-weight: 300;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--white);
+    opacity: 0.7;
 }
-
-    .logo span:nth-child(2) {
-        font-weight: 400;
-    }
 
 .nav-menu {
-    display: flex;
     list-style: none;
-    gap: 50px;
+    display: flex;
+    gap: 30px;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 2px;
 }
 
     .nav-menu a {
-        color: var(--white);
-        text-decoration: none;
-        font-size: 12px;
-        font-weight: 300;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        transition: opacity 0.3s;
-        opacity: 0.7;
+        padding-bottom: 5px;
     }
 
-        .nav-menu a:hover,
-        .nav-menu a.active {
-            opacity: 1;
+        .nav-menu a.active,
+        .nav-menu a:hover {
+            border-bottom: 1px solid var(--white);
+            color: var(--white);
         }
 
 .cart-count {
-    background: var(--white);
+    display: inline-block;
+    background-color: var(--white);
     color: var(--black);
     font-size: 10px;
-    padding: 2px 6px;
-    margin-left: 5px;
     border-radius: 50%;
-}
-
-/* 🖤 HERO SECTION */
-.hero {
-    margin-top: 100px;
-    height: 90vh;
-    background: var(--black);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-}
-
-    .hero::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.7)), url('https://cdn.shopify.com/s/files/1/0266/5765/9343/files/RICKOWENS_HEADER_1_1800x.jpg?v=1614296715');
-        background-size: cover;
-        background-position: center;
-        opacity: 0.3;
-    }
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-}
-
-.hero h1 {
-    font-size: 64px;
-    font-weight: 300;
-    letter-spacing: 12px;
-    text-transform: uppercase;
-    margin-bottom: 20px;
+    padding: 2px 5px;
+    margin-left: 5px;
     line-height: 1;
 }
 
-.hero-subtitle {
-    font-size: 14px;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    margin-bottom: 40px;
-    opacity: 0.7;
-}
-
-.btn {
-    background: var(--white);
-    color: var(--black);
-    border: 1px solid var(--white);
-    padding: 18px 50px;
-    font-size: 12px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-decoration: none;
-    display: inline-block;
-    font-weight: 400;
-}
-
-    .btn:hover {
-        background: var(--black);
-        color: var(--white);
-    }
-
-/* 🛒 SHOP PAGE */
-.shop-section {
-    padding: 150px 0 100px;
-    background: var(--black);
+/* 3. БАЗОВЫЕ СЕКЦИИ И ТИТУЛЬНЫЙ ЛИСТ */
+.main-section {
+    padding-top: 150px; /* Отступ от fixed Navbar */
+    min-height: 100vh;
 }
 
 .section-title {
-    font-size: 14px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    text-align: center;
-    margin-bottom: 80px;
+    font-size: 40px;
     font-weight: 300;
-    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 10px;
+    margin-bottom: 60px;
+    text-align: center;
 }
 
-/* Filter Tabs (Brand Filter) */
+/* 4. СТИЛИ ДЛЯ МАГАЗИНА (SHOP.HTML) */
+.shop-section {
+    padding-top: 150px;
+    padding-bottom: 80px;
+}
+
+.shop-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Фильтры */
 .filter-tabs {
     display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 50px;
     justify-content: center;
-    gap: 40px;
-    margin-bottom: 60px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border);
 }
 
 .filter-tab {
-    background: none;
-    border: none;
-    font-size: 11px;
-    letter-spacing: 3px;
+    background: transparent;
+    color: var(--gray);
+    border: 1px solid var(--border);
+    padding: 10px 20px;
     text-transform: uppercase;
-    cursor: pointer;
-    padding: 5px 0;
-    color: var(--white);
-    opacity: 0.5;
-    position: relative;
-    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 2px;
+    transition: all 0.2s;
 }
 
-    .filter-tab.active {
-        opacity: 1;
+    .filter-tab:hover {
+        color: var(--white);
+        border-color: var(--white);
     }
 
-        .filter-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -21px;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: var(--white);
-        }
+    .filter-tab.active {
+        background-color: var(--white);
+        color: var(--black);
+        border-color: var(--white);
+    }
 
-/* Products Grid */
+/* Сетка товаров */
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 50px;
-    padding: 20px 0;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
 }
 
 .product-card {
-    background: var(--black);
-    position: relative;
-    transition: transform 0.3s;
+    display: block;
+    border: 1px solid var(--border);
+    padding: 15px;
+    transition: border-color 0.2s;
 }
 
     .product-card:hover {
-        transform: translateY(-5px);
+        border-color: var(--white);
     }
 
 .product-image {
     width: 100%;
-    height: 500px;
+    height: 400px;
     object-fit: cover;
-    background: var(--gray);
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .product-info {
@@ -245,587 +195,167 @@ body {
 }
 
 .product-brand {
-    font-size: 11px;
-    letter-spacing: 3px;
+    font-size: 12px;
     text-transform: uppercase;
-    margin-bottom: 10px;
     opacity: 0.7;
-    font-weight: 300;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
 }
 
 .product-name {
-    font-size: 14px;
-    font-weight: 300;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
 }
 
 .product-price {
-    font-size: 14px;
-    font-weight: 300;
-    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 700;
 }
 
     .product-price span {
         text-decoration: line-through;
         opacity: 0.5;
+        font-weight: 300;
         margin-right: 10px;
     }
 
-.btn-add {
-    background: var(--black);
-    color: var(--white);
-    border: 1px solid var(--white);
-    padding: 15px 30px;
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    cursor: pointer;
-    width: 100%;
-    transition: all 0.3s;
-    font-weight: 300;
-}
-
-    .btn-add:hover {
-        background: var(--white);
-        color: var(--black);
-    }
-
-/* CART PAGE */
-.cart-section {
-    padding: 150px 0 100px;
-    background: var(--black);
-    min-height: 80vh;
-}
-
-.cart-container {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 100px;
-}
-
-.cart-items {
-    border-top: 1px solid var(--border);
-}
-
-.cart-item {
-    display: flex;
-    padding: 40px 0;
-    border-bottom: 1px solid var(--border);
-    gap: 40px;
-    align-items: center;
-}
-
-.cart-item-image {
-    width: 180px;
-    height: 180px;
-    object-fit: cover;
-    background: var(--gray);
-}
-
-.cart-item-details {
-    flex: 1;
-}
-
-.cart-item-brand {
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    opacity: 0.7;
-    margin-bottom: 10px;
-    font-weight: 300;
-}
-
-.cart-item-name {
-    font-size: 14px;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 300;
-}
-
-.cart-item-price {
-    font-size: 14px;
-    margin-bottom: 25px;
-    font-weight: 300;
-}
-
-.quantity-control {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.quantity-btn {
-    background: var(--black);
-    border: 1px solid var(--white);
-    color: var(--white);
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-}
-
-    .quantity-btn:hover {
-        background: var(--white);
-        color: var(--black);
-    }
-
-.remove-item {
-    background: none;
-    border: none;
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    cursor: pointer;
-    margin-top: 20px;
-    color: var(--white);
-    opacity: 0.7;
-    text-decoration: underline;
-    transition: opacity 0.3s;
-}
-
-    .remove-item:hover {
-        opacity: 1;
-    }
-
-/* Order Summary */
-.order-summary {
-    position: sticky;
-    top: 150px;
-    padding: 40px;
-    border: 1px solid var(--border);
-}
-
-.summary-title {
-    font-size: 14px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    margin-bottom: 40px;
-    font-weight: 300;
-}
-
-.summary-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 14px;
-    font-weight: 300;
-}
-
-    .summary-row.total {
-        border-bottom: none;
-        font-size: 16px;
-        font-weight: 400;
-        padding-top: 30px;
-    }
-
-.btn-checkout {
-    width: 100%;
-    margin-top: 40px;
-    padding: 20px;
-    font-size: 12px;
-    letter-spacing: 4px;
-}
-
-/* CHECKOUT PAGE */
-.checkout-section {
-    padding: 150px 0 100px;
-    background: var(--black);
-    min-height: 80vh;
-}
-
-.checkout-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 100px;
-}
-
-.checkout-form {
-    padding-right: 50px;
-    border-right: 1px solid var(--border);
-}
-
-    .checkout-form h3 {
-        font-size: 14px;
-        letter-spacing: 4px;
-        text-transform: uppercase;
-        margin-bottom: 40px;
-        font-weight: 300;
-    }
-
-.form-group {
-    margin-bottom: 30px;
-}
-
-    .form-group label {
-        display: block;
-        font-size: 11px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        margin-bottom: 15px;
-        opacity: 0.7;
-        font-weight: 300;
-    }
-
-    .form-group input,
-    .form-group select {
-        width: 100%;
-        padding: 15px 0;
-        background: none;
-        border: none;
-        border-bottom: 1px solid var(--border);
-        font-size: 14px;
-        color: var(--white);
-        font-family: 'Helvetica Neue', sans-serif;
-        font-weight: 300;
-    }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-bottom-color: var(--white);
-        }
-
-.payment-methods {
-    margin: 50px 0;
-}
-
-.payment-option {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 20px;
-    font-size: 14px;
-    cursor: pointer;
-    font-weight: 300;
-}
-
-.btn-pay {
-    width: 100%;
-    padding: 20px;
-    font-size: 12px;
-    letter-spacing: 4px;
-    margin-top: 30px;
-}
-
-/* FOOTER */
-.footer {
-    padding: 80px 0;
-    border-top: 1px solid var(--border);
+.loading-message {
     text-align: center;
-    background: var(--black);
+    grid-column: 1 / -1;
+    padding: 50px;
+    opacity: 0.7;
 }
 
-    .footer p {
-        font-size: 11px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        opacity: 0.5;
-        font-weight: 300;
-    }
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .nav-menu {
-        display: none;
-    }
-
-    .hero h1 {
-        font-size: 36px;
-        letter-spacing: 8px;
-    }
-
-    .products-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-
-    .cart-container,
-    .checkout-container {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-
-    .checkout-form {
-        padding-right: 0;
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 40px;
-    }
-
-    .cart-item {
-        flex-direction: column;
-        text-align: center;
-        gap: 30px;
-    }
-
-    .cart-item-image {
-        width: 100%;
-        height: 300px;
-    }
-
-    .container {
-        padding: 0 20px;
-    }
-
-    .filter-tabs {
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-
-    /* 📱 RESPONSIVENESS: Удаляем старые стили сайдбара для мобильных устройств */
-    /* Здесь больше нет .shop-layout и .shop-sidebar */
+.error-message {
+    text-align: center;
+    grid-column: 1 / -1;
+    padding: 50px;
+    color: red;
 }
 
-/* ------------------------------------------- */
-/* 🛒 NEW HORIZONTAL CATEGORY MENU STYLES */
-/* ------------------------------------------- */
 
-/* Контейнер для меню категорий */
-.horizontal-category-menu {
-    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Линия, отделяющая от фильтра брендов */
-    padding-top: 15px;
-    margin-bottom: 30px; /* Отступ до сетки товаров */
-}
-
-/* Заголовок "CATEGORIES" */
-.category-menu-title {
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    font-weight: 400;
-    margin-bottom: 10px;
-    opacity: 0.9;
-    color: #FFFFFF;
-}
-
-/* Основной список категорий (ALL PRODUCTS, CLOTHING, FOOTWEAR) */
-.category-filter-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex; /* Делает элементы горизонтальными */
-    flex-wrap: wrap;
-    gap: 30px; /* Расстояние между основными категориями */
-    align-items: flex-start;
-}
-
-    /* Стили для всех ссылок категорий (белый цвет) */
-    .category-filter-list a {
-        text-decoration: none;
-        padding: 5px 0;
-        font-size: 13px;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        color: var(--white); /* Используем переменную, она определена вверху */
-        opacity: 0.7;
-        transition: opacity 0.3s;
-        cursor: pointer;
-        white-space: nowrap;
-    }
-
-        /* Активные ссылки и при наведении */
-        .category-filter-list a:hover,
-        .category-filter-list a.active {
-            opacity: 1;
-            color: var(--white);
-        }
-
-/* 🚀 СТИЛИ ДЛЯ ПОДКАТЕГОРИЙ (Men's, Women's) */
-
-.has-children {
-    position: relative;
-}
-
-.sub-category-list {
-    list-style: none;
-    padding: 0;
-    margin-top: 5px;
-    /* Размещаем подкатегории горизонтально */
-    display: flex;
-    gap: 15px; /* Расстояние между Men's и Women's */
-}
-
-    /* Стили для ссылок подкатегорий */
-    .sub-category-list a {
-        font-size: 12px;
-        text-transform: none;
-        padding: 5px 0;
-        opacity: 0.6;
-        color: var(--white);
-    }
-
-        /* Активные подкатегории и при наведении */
-        .sub-category-list a:hover,
-        .sub-category-list a.active {
-            opacity: 1;
-            color: var(--white);
-            font-weight: 400;
-        }
-/* ------------------------------------------- */
-/* 📦 PRODUCT DETAILS PAGE (PDP) STYLES (ФИНАЛЬНЫЕ СТИЛИ) */
-/* ------------------------------------------- */
-
+/* 5. СТРАНИЦА ТОВАРА (PRODUCT.HTML) */
 .product-details-section {
-    padding: 150px 0 100px;
-    min-height: 80vh;
+    padding-top: 150px;
+    padding-bottom: 80px;
 }
 
-/* 🖼️ МАКЕТ 3:4 (Изображение 3 части, Информация 4 части) */
 .product-details-layout {
     display: grid;
-    grid-template-columns: 3fr 4fr; /* Новое соотношение для стильного вида */
-    gap: 70px;
-    align-items: flex-start;
-}
-
-.product-image-area {
-    /* Контейнер для изображения */
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
 }
 
 .detail-image {
     width: 100%;
-    max-height: 600px; /* Ограничиваем высоту */
     height: auto;
-    object-fit: contain; /* Гарантирует, что фото не обрезается */
-    background: var(--gray);
-    margin-top: -50px;
+    object-fit: cover;
 }
 
 .product-info-area {
-    padding-top: 50px;
-    position: static;
-    top: auto;
+    padding: 20px 0;
 }
 
-/* ✒️ Стили текста (исправляем синий цвет) */
 .detail-brand {
-    font-size: 12px;
-    letter-spacing: 4px;
+    font-size: 14px;
     text-transform: uppercase;
     opacity: 0.7;
-    margin-bottom: 15px;
-    font-weight: 300;
-    color: var(--white); /* Явно белый цвет */
+    letter-spacing: 2px;
+    margin-bottom: 10px;
 }
 
 .detail-name {
-    font-size: 32px;
+    font-size: 36px;
     font-weight: 300;
-    line-height: 1.2;
-    margin-bottom: 10px;
-    color: var(--white); /* Явно белый цвет */
-    text-decoration: none;
+    margin-bottom: 20px;
 }
 
 .detail-price {
-    font-size: 16px;
-    font-weight: 400;
-    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border);
     padding-bottom: 20px;
-    border-bottom: 1px solid var(--border); /* Разделитель */
 }
 
     .detail-price span {
         text-decoration: line-through;
         opacity: 0.5;
-        margin-right: 15px;
-        font-size: 14px;
+        font-weight: 300;
+        margin-right: 10px;
+        font-size: 18px;
     }
 
-/* Size Selection */
-.size-selection {
-    margin-top: 20px;
-    margin-bottom: 40px;
-    padding-top: 0;
-}
-
 .size-title {
-    font-size: 11px;
-    letter-spacing: 3px;
     text-transform: uppercase;
-    margin-bottom: 15px;
-    opacity: 0.8;
-}
-
-.size-options-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
 }
 
 .size-option {
-    background: var(--black);
+    background: transparent;
     color: var(--white);
     border: 1px solid var(--border);
     padding: 10px 15px;
-    font-size: 13px;
-    cursor: pointer;
+    margin-right: 10px;
+    margin-bottom: 10px;
     transition: all 0.2s;
-    font-weight: 300;
+    text-transform: uppercase;
+    font-size: 14px;
 }
 
     .size-option:hover {
         border-color: var(--white);
     }
 
-    .size-option.active {
-        background: var(--white);
+    .size-option.selected {
+        background-color: var(--white);
         color: var(--black);
         border-color: var(--white);
     }
 
-/* Add to Cart Button on Details Page */
 .btn-add-details {
     width: 100%;
-    padding: 22px 0;
-    margin-bottom: 50px;
+    background-color: var(--white);
+    color: var(--black);
+    padding: 18px 0;
+    border: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-top: 30px;
+    transition: background-color 0.2s;
 }
 
-/* Description */
+    .btn-add-details:hover {
+        background-color: var(--gray);
+    }
+
 .product-description {
+    margin-top: 50px;
     border-top: 1px solid var(--border);
     padding-top: 30px;
 }
 
 .description-title {
-    font-size: 12px;
-    letter-spacing: 3px;
+    font-size: 18px;
+    font-weight: 500;
     text-transform: uppercase;
-    margin-bottom: 20px;
-    font-weight: 400;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
 }
 
-.product-description p {
-    font-size: 14px;
-    line-height: 1.6;
-    opacity: 0.8;
+/* 6. ФУТЕР (FOOTER) */
+.footer {
+    border-top: 1px solid var(--border);
+    padding: 20px 0;
+    text-align: center;
+    font-size: 12px;
+    opacity: 0.6;
 }
 
-/* Responsive Styles for PDP */
-@media (max-width: 1024px) {
-    .product-details-layout {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-
-    .product-info-area {
-        position: static;
-        padding-top: 0;
-    }
-
-    .detail-image {
-        max-height: 70vh;
-        margin-top: 0;
-    }
-}
 /* ------------------------------------------- */
 /* 🔑 ADMIN LOGIN STYLES */
 /* ------------------------------------------- */
@@ -866,7 +396,9 @@ body {
         text-transform: uppercase;
     }
 
-    .form-group input {
+    .form-group input,
+    .admin-form input,
+    .admin-form textarea {
         width: 100%;
         padding: 15px 10px;
         background: var(--black);
@@ -874,6 +406,24 @@ body {
         color: var(--white);
         font-size: 14px;
         box-sizing: border-box;
+        margin-top: 0; /* Переопределение для общих стилей */
+    }
+
+.btn {
+    display: block;
+    background: transparent;
+    border: 1px solid var(--white);
+    color: var(--white);
+    padding: 15px 25px;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 2px;
+    transition: all 0.2s;
+}
+
+    .btn:hover {
+        background: var(--white);
+        color: var(--black);
     }
 
 .btn-full {
@@ -893,6 +443,8 @@ body {
     .btn-full:hover {
         background: var(--gray);
     }
+
+
 /* ------------------------------------------- */
 /* ⚙️ ADMIN DASHBOARD STYLES */
 /* ------------------------------------------- */
@@ -948,12 +500,12 @@ body {
     }
 
     .tab-button.logout {
-        margin-left: auto; /* Сдвигает кнопку LOGOUT вправо */
+        margin-left: auto;
     }
 
 /* 📝 Контент Вкладок */
 .tab-content {
-    display: none; /* Скрыто по умолчанию, показывается через JS */
+    display: none;
     padding: 30px 0;
 }
 
@@ -966,7 +518,7 @@ body {
 
 /* Формы */
 .admin-form {
-    background: #111; /* Небольшой контраст */
+    background: #111;
     padding: 30px;
     border: 1px solid #333;
 }
@@ -978,25 +530,13 @@ body {
 }
 
 .admin-form .form-group {
-    margin-bottom: 15px; /* Меньший отступ внутри админки */
+    margin-bottom: 15px;
 }
 
 .admin-form label {
     font-size: 10px;
     letter-spacing: 2px;
     opacity: 0.8;
-}
-
-.admin-form input,
-.admin-form textarea {
-    width: 100%;
-    padding: 12px 10px;
-    background: #000;
-    border: 1px solid #333;
-    color: var(--white);
-    font-size: 14px;
-    box-sizing: border-box;
-    margin-top: 5px;
 }
 
 .admin-form textarea {
@@ -1020,6 +560,7 @@ body {
     align-items: center;
     border-bottom: 1px solid #222;
     padding: 10px 0;
+    justify-content: space-between;
 }
 
     .product-list-item:last-child {
@@ -1029,11 +570,30 @@ body {
 .product-details {
     margin-left: 15px;
     font-size: 13px;
+    flex-grow: 1;
 }
 
     .product-details p {
         margin: 5px 0;
         opacity: 0.9;
+    }
+
+.product-list-item img {
+    border: 1px solid #222;
+}
+
+.btn-delete {
+    background: red;
+    color: var(--white);
+    border: none;
+    padding: 8px 12px;
+    font-size: 12px;
+    margin-left: 15px;
+    transition: opacity 0.2s;
+}
+
+    .btn-delete:hover {
+        opacity: 0.8;
     }
 
 
@@ -1091,8 +651,155 @@ body {
     margin-top: 30px;
 }
 
-/* Responsive */
+
+/* ------------------------------------------- */
+/* 👤 AUTHENTICATION (LOGIN/REGISTER) STYLES */
+/* ------------------------------------------- */
+
+.auth-section {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 20px;
+}
+
+.auth-box {
+    width: 100%;
+    max-width: 450px;
+    padding: 40px;
+    border: 1px solid var(--border);
+    text-align: center;
+}
+
+    .auth-box .section-title {
+        font-size: 28px;
+        margin-bottom: 30px;
+        letter-spacing: 5px;
+    }
+
+.auth-form {
+    padding-top: 10px;
+}
+
+    .auth-form .form-group {
+        margin-bottom: 25px;
+        text-align: left;
+    }
+
+.message {
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.success-message {
+    color: green;
+    border: 1px solid green;
+}
+
+.error-message {
+    color: red;
+    border: 1px solid red;
+}
+
+.auth-box a {
+    font-weight: 500;
+}
+
+
+/* 🌐 SOCIAL LOGIN STYLES */
+.social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+    .btn-social i {
+        font-size: 18px;
+        margin-right: 15px;
+    }
+
+.google {
+    background-color: #4285F4; /* Google Blue */
+    color: white;
+}
+
+    .google:hover {
+        opacity: 0.9;
+    }
+
+.divider {
+    position: relative;
+    text-align: center;
+    margin: 20px 0;
+}
+
+    .divider::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        border-top: 1px solid var(--border);
+        z-index: 1;
+    }
+
+.divider-text {
+    background: var(--black);
+    padding: 0 10px;
+    position: relative;
+    z-index: 2;
+    color: var(--white);
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+
+/* 7. АДАПТИВНОСТЬ (MEDIA QUERIES) */
+@media (max-width: 992px) {
+    .product-details-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
 @media (max-width: 768px) {
+    .nav-menu {
+        gap: 15px;
+        font-size: 12px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+    }
+
+    .product-image {
+        height: 300px;
+    }
+
+    .admin-title, .section-title {
+        font-size: 30px;
+        letter-spacing: 5px;
+    }
+
     .form-grid {
         grid-template-columns: 1fr;
     }
@@ -1105,5 +812,9 @@ body {
         margin-left: 0;
         width: 100%;
         margin-top: 10px;
+    }
+
+    .analytics-metrics {
+        flex-direction: column;
     }
 }

@@ -6,6 +6,10 @@
     <title>ADMIN DASHBOARD — GOTYXAN-PRO</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    <script src="firebase-config.js"></script> 
 </head>
 <body>
     <section class="admin-dashboard-section">
@@ -70,9 +74,10 @@
                     <button type="submit" class="btn btn-full save-button">SAVE PRODUCT</button>
                     <p id="product-save-message" style="margin-top: 20px; text-align: center; color: green; display: none;">Product added successfully (Simulation).</p>
 
-                    <h3 style="margin-top: 50px;">CURRENT PRODUCTS (Simulation)</h3>
+                    <h3 style="margin-top: 50px;">CURRENT PRODUCTS</h3>
                     <div id="product-list" class="product-list-preview">
-                        </div>
+                        Loading products...
+                    </div>
                 </form>
             </div>
 
@@ -128,110 +133,123 @@
     </footer>
 
     <script>
-        // Имитация хранения товаров (поскольку нет базы данных)
-        let adminProducts = [];
-
         // --- 1. ЛОГИКА ВХОДА/ВЫХОДА И ПРОВЕРКА АУТЕНТИФИКАЦИИ ---
-        // В реальном приложении здесь была бы проверка токена
-        document.addEventListener('DOMContentLoaded', () => {
-            // В данной имитации мы предполагаем, что если мы здесь, то вход успешен
-            // Если бы мы хотели быть строгими, то после входа надо было бы установить флаг в localStorage
-            // и проверять его тут. Но пока оставим просто перенаправление.
-            
-            // Загрузка сохраненных (имитированных) товаров
-            const storedProducts = localStorage.getItem('admin_products_sim');
-            if (storedProducts) {
-                adminProducts = JSON.parse(storedProducts);
-                renderProductList();
-            }
-        });
-
         function logoutAdmin() {
-            // В реальном приложении: удалить токен
             alert("Logged out successfully.");
             window.location.href = 'admin-login.html';
         }
 
         // --- 2. ЛОГИКА ВКЛАДОК (TABS) ---
         function openTab(evt, tabName) {
-            // Скрыть все содержимое вкладок
             const tabContents = document.getElementsByClassName("tab-content");
             for (let i = 0; i < tabContents.length; i++) {
                 tabContents[i].style.display = "none";
             }
 
-            // Удалить класс 'active' со всех кнопок
             const tabButtons = document.getElementsByClassName("tab-button");
             for (let i = 0; i < tabButtons.length; i++) {
                 tabButtons[i].classList.remove("active");
             }
 
-            // Показать текущую вкладку и сделать кнопку активной
             document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.classList.add("active");
+            if (evt) { evt.currentTarget.classList.add("active"); }
         }
 
-        // По умолчанию открываем вкладку "Products" при загрузке
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('Products').style.display = 'block';
-            // Остальные инициализации...
-        });
-
-
-        // --- 3. ЛОГИКА ДОБАВЛЕНИЯ ТОВАРА (Имитация) ---
-        document.getElementById('add-product-form').addEventListener('submit', function(event) {
+        // --- 3. ЛОГИКА ДОБАВЛЕНИЯ ТОВАРА (Firebase Firestore) ---
+        document.getElementById('add-product-form').addEventListener('submit', async function(event) {
             event.preventDefault();
 
             const newProduct = {
-                id: adminProducts.length + 1, // Простой ID
                 name: document.getElementById('product-name').value,
                 brand: document.getElementById('product-brand').value,
                 price: parseFloat(document.getElementById('product-price').value),
                 originalPrice: parseFloat(document.getElementById('product-old-price').value) || null,
                 image: document.getElementById('product-image').value,
                 description: document.getElementById('product-description').value,
-                sizes: document.getElementById('product-sizes').value.split(',').map(s => s.trim().toUpperCase())
+                sizes: document.getElementById('product-sizes').value.split(',').map(s => s.trim().toUpperCase()),
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
             };
 
-            adminProducts.push(newProduct);
-            
-            // Сохранение имитированных данных в браузере
-            localStorage.setItem('admin_products_sim', JSON.stringify(adminProducts));
+            const message = document.getElementById('product-save-message');
 
-            // Обновление списка и сброс формы
-            renderProductList();
-            this.reset();
+            try {
+                await db.collection("products").add(newProduct);
+                message.textContent = "Product added successfully!";
+                message.style.color = 'green';
+                
+                this.reset();
+                renderProductList(); // Обновляем список
+
+            } catch (error) {
+                message.textContent = "Error saving product: " + error.message;
+                message.style.color = 'red';
+                console.error("Error adding document: ", error);
+            }
             
-            // Показать сообщение об успехе
-            document.getElementById('product-save-message').style.display = 'block';
+            message.style.display = 'block';
             setTimeout(() => {
-                document.getElementById('product-save-message').style.display = 'none';
+                message.style.display = 'none';
             }, 3000);
         });
 
-        // Функция для отображения имитированных товаров
-        function renderProductList() {
+        // --- 4. ФУНКЦИЯ ДЛЯ ОТОБРАЖЕНИЯ И УДАЛЕНИЯ ТОВАРОВ ---
+        async function renderProductList() {
             const listContainer = document.getElementById('product-list');
-            listContainer.innerHTML = ''; // Очистка
+            listContainer.innerHTML = 'Loading products...';
 
-            if (adminProducts.length === 0) {
-                listContainer.innerHTML = '<p style="opacity: 0.7;">No products added yet.</p>';
-                return;
+            try {
+                // Получаем товары, отсортированные по дате создания
+                const snapshot = await db.collection('products').orderBy('createdAt', 'desc').get();
+                listContainer.innerHTML = '';
+                
+                if (snapshot.empty) {
+                    listContainer.innerHTML = '<p style="opacity: 0.7;">No products added yet.</p>';
+                    return;
+                }
+
+                snapshot.forEach(doc => {
+                    const product = doc.data();
+                    const itemId = doc.id; // ID документа Firestore
+
+                    const item = document.createElement('div');
+                    item.className = 'product-list-item';
+                    item.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}" style="width: 50px; height: 50px; object-fit: cover;">
+                        <div class="product-details">
+                            <p><strong>ID: ${itemId} - ${product.name}</strong> (${product.brand})</p>
+                            <p>Price: €${product.price} | Sizes: ${product.sizes.join(', ')}</p>
+                        </div>
+                        <button class="btn-delete" onclick="deleteProduct('${itemId}')">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    `;
+                    listContainer.appendChild(item);
+                });
+
+            } catch (error) {
+                listContainer.innerHTML = `<p style="color: red;">Error loading products: ${error.message}</p>`;
+                console.error("Error loading products: ", error);
             }
-
-            adminProducts.forEach(product => {
-                const item = document.createElement('div');
-                item.className = 'product-list-item';
-                item.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}" style="width: 50px; height: 50px; object-fit: cover;">
-                    <div class="product-details">
-                        <p><strong>ID ${product.id} - ${product.name}</strong> (${product.brand})</p>
-                        <p>Price: €${product.price} | Sizes: ${product.sizes.join(', ')}</p>
-                    </div>
-                `;
-                listContainer.appendChild(item);
-            });
         }
+        
+        async function deleteProduct(productId) {
+            if (!confirm("Are you sure you want to delete this product?")) return;
+
+            try {
+                await db.collection("products").doc(productId).delete();
+                alert("Product deleted successfully!");
+                renderProductList(); // Обновляем список
+            } catch (error) {
+                console.error("Error removing document: ", error);
+                alert("Error deleting product: " + error.message);
+            }
+        }
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            openTab({currentTarget: document.querySelector('.tab-button.active')}, 'Products'); 
+            renderProductList(); 
+        });
     </script>
 </body>
 </html>

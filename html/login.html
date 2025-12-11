@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN — GOTYXAN-PRO</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script> 
+    <script src="firebase-config.js"></script>
+</head>
+<body>
+    <section class="auth-section">
+        <div class="container">
+            <div class="auth-box">
+                <h2 class="section-title">LOG IN</h2>
+
+                <div class="social-login">
+                    <button class="btn btn-social google" onclick="signInWithGoogle()">
+                        <i class="fab fa-google"></i> SIGN IN WITH GOOGLE
+                    </button>
+                    </div>
+
+                <div class="divider">
+                    <span class="divider-text">OR</span>
+                </div>
+
+                <form id="login-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="login-email">EMAIL</label>
+                        <input type="email" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">PASSWORD</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-full">LOG IN</button>
+                    <p id="login-error" class="message error-message" style="display: none; margin-top: 15px;"></p>
+                </form>
+
+                <p style="margin-top: 20px; font-size: 14px; opacity: 0.7;">
+                    Don't have an account? <a href="register.html" style="color: var(--white); text-decoration: underline;">Register here</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const auth = firebase.auth();
+        const loginForm = document.getElementById('login-form');
+
+        // --- 1. ВХОД ПО EMAIL/ПАРОЛЮ ---
+        loginForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const loginError = document.getElementById('login-error');
+            loginError.style.display = 'none';
+
+            try {
+                // Выполняем вход
+                await auth.signInWithEmailAndPassword(email, password);
+                
+                // Проверяем, подтверждена ли почта (если мы используем верификацию)
+                if (auth.currentUser && !auth.currentUser.emailVerified) {
+                    loginError.textContent = 'Please check your email and verify your account first.';
+                    loginError.style.display = 'block';
+                    auth.signOut(); // Выходим, пока не подтвердят почту
+                    return;
+                }
+                
+                // Успешный вход: перенаправление на главную или в профиль
+                alert('Login successful!');
+                window.location.href = 'index.html'; 
+
+            } catch (error) {
+                // Обработка ошибок
+                let errorMessage = 'Login failed. Please check your credentials.';
+                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                    errorMessage = 'Invalid email or password.';
+                }
+                loginError.textContent = `Error: ${errorMessage}`;
+                loginError.style.display = 'block';
+                console.error(error);
+            }
+        });
+
+        // --- 2. ВХОД ЧЕРЕЗ GOOGLE ---
+        function signInWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider) // Вход через всплывающее окно
+                .then((result) => {
+                    // Успешный вход
+                    alert('Google login successful!');
+                    window.location.href = 'index.html';
+                })
+                .catch((error) => {
+                    alert(`Google login failed: ${error.message}`);
+                    console.error("Google Auth Error:", error);
+                });
+        }
+
+        // --- 3. Проверка статуса пользователя при загрузке страницы ---
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // Пользователь уже вошел
+                console.log("User is logged in:", user.email);
+            } else {
+                // Пользователь вышел
+                console.log("User is logged out.");
+            }
+        });
+    </script>
+</body>
+</html>
