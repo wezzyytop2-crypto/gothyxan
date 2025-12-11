@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN DASHBOARD — GOTYXAN-PRO</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <section class="admin-dashboard-section">
+        <div class="container">
+            <h1 class="admin-title">DASHBOARD</h1>
+            
+            <div class="admin-tabs">
+                <button class="tab-button active" onclick="openTab(event, 'Products')">
+                    <i class="fa-solid fa-box"></i> PRODUCTS
+                </button>
+                <button class="tab-button" onclick="openTab(event, 'Users')">
+                    <i class="fa-solid fa-users"></i> USERS
+                </button>
+                <button class="tab-button" onclick="openTab(event, 'Analytics')">
+                    <i class="fa-solid fa-chart-line"></i> ANALYTICS
+                </button>
+                <button class="tab-button logout" onclick="logoutAdmin()">
+                    <i class="fa-solid fa-right-from-bracket"></i> LOGOUT
+                </button>
+            </div>
+
+            <div id="Products" class="tab-content active">
+                <h2 class="content-title">ADD NEW PRODUCT</h2>
+                <form id="add-product-form" class="admin-form">
+                    
+                    <div class="form-grid">
+                        <div class="form-column">
+                            <div class="form-group">
+                                <label for="product-name">Product Name</label>
+                                <input type="text" id="product-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-brand">Brand</label>
+                                <input type="text" id="product-brand" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-price">Price (€)</label>
+                                <input type="number" id="product-price" required step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-old-price">Old Price (Optional)</label>
+                                <input type="number" id="product-old-price" step="0.01">
+                            </div>
+                        </div>
+
+                        <div class="form-column">
+                            <div class="form-group">
+                                <label for="product-image">Image URL (Photo)</label>
+                                <input type="url" id="product-image" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-description">Description</label>
+                                <textarea id="product-description" rows="5" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-sizes">Available Sizes (S, M, L or 40, 41, 42 - separate by comma)</label>
+                                <input type="text" id="product-sizes" placeholder="e.g. S, M, L, XL" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-full save-button">SAVE PRODUCT</button>
+                    <p id="product-save-message" style="margin-top: 20px; text-align: center; color: green; display: none;">Product added successfully (Simulation).</p>
+
+                    <h3 style="margin-top: 50px;">CURRENT PRODUCTS (Simulation)</h3>
+                    <div id="product-list" class="product-list-preview">
+                        </div>
+                </form>
+            </div>
+
+            <div id="Users" class="tab-content">
+                <h2 class="content-title">REGISTERED USERS (Simulation)</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>Registration Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                        <tr><td>1</td><td>user1@example.com</td><td>2025-11-01</td><td>Active</td></tr>
+                        <tr><td>2</td><td>user2@test.com</td><td>2025-11-15</td><td>Active</td></tr>
+                    </tbody>
+                </table>
+                <p class="admin-note">
+                    *In a real application, this data is retrieved from a secure server database.
+                </p>
+            </div>
+
+            <div id="Analytics" class="tab-content">
+                <h2 class="content-title">SITE VISITS & ANALYTICS (Simulation)</h2>
+                <div class="analytics-metrics">
+                    <div class="metric-card">
+                        <h3>Total Visits</h3>
+                        <p class="metric-value">12,540</p>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Unique Users</h3>
+                        <p class="metric-value">5,102</p>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Conversion Rate</h3>
+                        <p class="metric-value">2.4%</p>
+                    </div>
+                </div>
+                <p class="admin-note">
+                    *Actual tracking requires server-side monitoring tools (like Google Analytics or custom logging).
+                </p>
+            </div>
+
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 GOTYXAN-PRO Admin</p>
+        </div>
+    </footer>
+
+    <script>
+        // Имитация хранения товаров (поскольку нет базы данных)
+        let adminProducts = [];
+
+        // --- 1. ЛОГИКА ВХОДА/ВЫХОДА И ПРОВЕРКА АУТЕНТИФИКАЦИИ ---
+        // В реальном приложении здесь была бы проверка токена
+        document.addEventListener('DOMContentLoaded', () => {
+            // В данной имитации мы предполагаем, что если мы здесь, то вход успешен
+            // Если бы мы хотели быть строгими, то после входа надо было бы установить флаг в localStorage
+            // и проверять его тут. Но пока оставим просто перенаправление.
+            
+            // Загрузка сохраненных (имитированных) товаров
+            const storedProducts = localStorage.getItem('admin_products_sim');
+            if (storedProducts) {
+                adminProducts = JSON.parse(storedProducts);
+                renderProductList();
+            }
+        });
+
+        function logoutAdmin() {
+            // В реальном приложении: удалить токен
+            alert("Logged out successfully.");
+            window.location.href = 'admin-login.html';
+        }
+
+        // --- 2. ЛОГИКА ВКЛАДОК (TABS) ---
+        function openTab(evt, tabName) {
+            // Скрыть все содержимое вкладок
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].style.display = "none";
+            }
+
+            // Удалить класс 'active' со всех кнопок
+            const tabButtons = document.getElementsByClassName("tab-button");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+
+            // Показать текущую вкладку и сделать кнопку активной
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.classList.add("active");
+        }
+
+        // По умолчанию открываем вкладку "Products" при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('Products').style.display = 'block';
+            // Остальные инициализации...
+        });
+
+
+        // --- 3. ЛОГИКА ДОБАВЛЕНИЯ ТОВАРА (Имитация) ---
+        document.getElementById('add-product-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const newProduct = {
+                id: adminProducts.length + 1, // Простой ID
+                name: document.getElementById('product-name').value,
+                brand: document.getElementById('product-brand').value,
+                price: parseFloat(document.getElementById('product-price').value),
+                originalPrice: parseFloat(document.getElementById('product-old-price').value) || null,
+                image: document.getElementById('product-image').value,
+                description: document.getElementById('product-description').value,
+                sizes: document.getElementById('product-sizes').value.split(',').map(s => s.trim().toUpperCase())
+            };
+
+            adminProducts.push(newProduct);
+            
+            // Сохранение имитированных данных в браузере
+            localStorage.setItem('admin_products_sim', JSON.stringify(adminProducts));
+
+            // Обновление списка и сброс формы
+            renderProductList();
+            this.reset();
+            
+            // Показать сообщение об успехе
+            document.getElementById('product-save-message').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('product-save-message').style.display = 'none';
+            }, 3000);
+        });
+
+        // Функция для отображения имитированных товаров
+        function renderProductList() {
+            const listContainer = document.getElementById('product-list');
+            listContainer.innerHTML = ''; // Очистка
+
+            if (adminProducts.length === 0) {
+                listContainer.innerHTML = '<p style="opacity: 0.7;">No products added yet.</p>';
+                return;
+            }
+
+            adminProducts.forEach(product => {
+                const item = document.createElement('div');
+                item.className = 'product-list-item';
+                item.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" style="width: 50px; height: 50px; object-fit: cover;">
+                    <div class="product-details">
+                        <p><strong>ID ${product.id} - ${product.name}</strong> (${product.brand})</p>
+                        <p>Price: €${product.price} | Sizes: ${product.sizes.join(', ')}</p>
+                    </div>
+                `;
+                listContainer.appendChild(item);
+            });
+        }
+    </script>
+</body>
+</html>
