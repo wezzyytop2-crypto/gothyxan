@@ -8,8 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
-    <script src="firebase-config.js"></script>
+    
+    <script src="firebase-config.js"></script> 
 </head>
 <body>
     <nav class="navbar">
@@ -17,35 +19,32 @@
             <a href="index.html" class="logo">
                 <span>GOTYXAN</span><span>-PRO</span>
             </a>
-            <ul class="nav-menu">
+            <ul class="nav-menu" id="main-nav-menu">
                 <li><a href="index.html">HOME</a></li>
                 <li><a href="shop.html" class="active">SHOP</a></li>
                 <li><a href="cart.html">CART <span class="cart-count">0</span></a></li>
-                <li><a href="checkout.html">CHECKOUT</a></li>
-                <li><a href="about.html">ABOUT</a></li>
+                
+                <li id="auth-link-1"><a href="login.html">LOGIN</a></li>
+                <li id="auth-link-2"><a href="register.html">REGISTER</a></li>
             </ul>
         </div>
     </nav>
-
     <section class="shop-section">
         <div class="container">
             <h2 class="section-title">COLLECTION</h2>
-            
-            <div class="shop-content">
-                
-                <div class="filter-tabs">
-                    <button class="filter-tab active" data-brand="all" onclick="filterProducts('all')">ALL BRANDS</button>
-                    <button class="filter-tab" data-brand="RICK OWENS" onclick="filterProducts('RICK OWENS')">RICK OWENS</button>
-                    <button class="filter-tab" data-brand="BALENCIAGA" onclick="filterProducts('BALENCIAGA')">BALENCIAGA</button>
-                    <button class="filter-tab" data-brand="MAISON MARGIELA" onclick="filterProducts('MAISON MARGIELA')">MAISON MARGIELA</button>
-                    <button class="filter-tab" data-brand="ANN DEMEULEMEESTER" onclick="filterProducts('ANN DEMEULEMEESTER')">ANN DEMEULEMEESTER</button>
-                    <button class="filter-tab" data-brand="YOHJI YAMAMOTO" onclick="filterProducts('YOHJI YAMAMOTO')">YOHJI YAMAMOTO</button>
-                    <button class="filter-tab" data-brand="RAF SIMONS" onclick="filterProducts('RAF SIMONS')">RAF SIMONS</button>
-                </div>
 
-                <div class="products-grid" id="products-grid">
-                    <p class="loading-message">Loading products from server...</p>
-                </div>
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">ALL BRANDS</button>
+                <button class="filter-tab" data-filter="RICK OWENS">RICK OWENS</button>
+                <button class="filter-tab" data-filter="BALENCIAGA">BALENCIAGA</button>
+                <button class="filter-tab" data-filter="MAISON MARGIELA">MAISON MARGIELA</button>
+                <button class="filter-tab" data-filter="ANN DEMEULEMEESTER">ANN DEMEULEMEESTER</button>
+                <button class="filter-tab" data-filter="YOHJI YAMAMOTO">YOHJI YAMAMOTO</button>
+                <button class="filter-tab" data-filter="RAF SIMONS">RAF SIMONS</button>
+            </div>
+
+            <div id="products-grid" class="products-grid">
+                <p class="loading-message">Loading products...</p>
             </div>
             
         </div>
@@ -58,82 +57,105 @@
     </footer>
 
     <script>
-        let allProducts = []; // Массив для хранения всех товаров из Firebase
-        let currentBrandFilter = 'all';
+        // Переменные должны быть определены в firebase-config.js
+        const auth = firebase.auth();
+        const db = firebase.firestore(); 
 
-        // --- 1. ФУНКЦИЯ ЗАГРУЗКИ ТОВАРОВ ИЗ FIREBASE ---
-        async function loadProductsFromFirebase() {
-            const productsGrid = document.getElementById('products-grid');
-            productsGrid.innerHTML = '<p class="loading-message">Loading products from server...</p>';
+        const productsGrid = document.getElementById('products-grid');
+        let allProducts = []; // Массив для хранения всех загруженных товаров
+
+        // --- 1. ФУНКЦИЯ ЗАГРУЗКИ ТОВАРОВ ИЗ FIRESTORE ---
+        async function fetchAndDisplayProducts(filterBrand = 'all') {
+            productsGrid.innerHTML = '<p class="loading-message">Loading products...</p>';
 
             try {
-                // Получаем все документы из коллекции 'products', отсортированные по дате создания
-                const snapshot = await db.collection('products').orderBy('createdAt', 'desc').get();
+                // Если товары еще не загружены, загружаем их
+                if (allProducts.length === 0) {
+                    const snapshot = await db.collection('products').orderBy('createdAt', 'desc').get();
+                    snapshot.forEach(doc => {
+                        allProducts.push({ id: doc.id, ...doc.data() });
+                    });
+                }
                 
-                allProducts = snapshot.docs.map(doc => ({
-                    id: doc.id, // ID документа Firebase (для ссылки на product.html)
-                    ...doc.data()
-                }));
+                // Фильтруем товары
+                const productsToDisplay = filterBrand === 'all'
+                    ? allProducts
+                    : allProducts.filter(p => p.brand.toUpperCase() === filterBrand.toUpperCase());
 
-                renderProductsGrid(allProducts); 
+
+                if (productsToDisplay.length === 0) {
+                    productsGrid.innerHTML = '<p class="loading-message">No products found for this brand.</p>';
+                    return;
+                }
+
+                productsGrid.innerHTML = ''; // Очищаем
+
+                productsToDisplay.forEach(product => {
+                    const priceElement = product.discountPrice 
+                        ? `<p class="product-price"><span>€${product.price.toFixed(2)}</span> €${product.discountPrice.toFixed(2)}</p>`
+                        : `<p class="product-price">€${product.price.toFixed(2)}</p>`;
+                    
+                    const productHtml = `
+                        <a href="product.html?id=${product.id}" class="product-card">
+                            <img src="${product.imageUrl}" alt="${product.name}" class="product-image">
+                            <div class="product-info">
+                                <p class="product-brand">${product.brand.toUpperCase()}</p>
+                                <h3 class="product-name">${product.name}</h3>
+                                ${priceElement}
+                            </div>
+                        </a>
+                    `;
+                    productsGrid.insertAdjacentHTML('beforeend', productHtml);
+                });
+
             } catch (error) {
+                // Здесь мы ловим и ошибку "db is not defined", если она еще не исправлена
                 productsGrid.innerHTML = `<p class="error-message">Error loading products: ${error.message}</p>`;
-                console.error("Error loading products:", error);
+                console.error("Error loading documents: ", error);
             }
         }
+        
+        // --- 2. ЛОГИКА ФИЛЬТРАЦИИ ---
+        document.querySelectorAll('.filter-tab').forEach(button => {
+            button.addEventListener('click', function() {
+                // Смена активной кнопки
+                document.querySelectorAll('.filter-tab').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
 
-        // --- 2. ФУНКЦИЯ ОТОБРАЖЕНИЯ ТОВАРОВ ---
-        function renderProductsGrid(productsToRender) {
-            const productsGrid = document.getElementById('products-grid');
-            productsGrid.innerHTML = '';
+                // Запуск загрузки с новым фильтром
+                const filter = this.getAttribute('data-filter');
+                fetchAndDisplayProducts(filter);
+            });
+        });
 
-            if (productsToRender.length === 0) {
-                productsGrid.innerHTML = '<p style="text-align: center; margin-top: 50px;">No products found matching the criteria.</p>';
-                return;
+        // --- 3. ЛОГИКА ДИНАМИЧЕСКОЙ НАВИГАЦИИ (скопирована с index.html) ---
+        function updateNavigation(user) {
+            const authLink1 = document.getElementById('auth-link-1');
+            const authLink2 = document.getElementById('auth-link-2');
+
+            authLink1.innerHTML = '';
+            authLink2.innerHTML = '';
+
+            if (user) {
+                authLink1.innerHTML = `<a href="profile.html">PROFILE</a>`;
+                authLink2.innerHTML = `<a href="#" onclick="logoutUser(event)">LOG OUT</a>`;
+            } else {
+                authLink1.innerHTML = `<a href="login.html">LOGIN</a>`;
+                authLink2.innerHTML = `<a href="register.html">REGISTER</a>`;
             }
-
-            productsToRender.forEach(product => {
-                const priceHtml = product.originalPrice
-                    ? `<span>€${product.originalPrice}</span> €${product.price}`
-                    : `€${product.price}`;
-
-                // product.id теперь - это ID документа в Firestore
-                const productCardHtml = `
-                    <a href="product.html?id=${product.id}" class="product-card">
-                        <img src="${product.image}" alt="${product.name}" class="product-image">
-                        <div class="product-info">
-                            <p class="product-brand">${product.brand}</p>
-                            <h3 class="product-name">${product.name}</h3>
-                            <p class="product-price">${priceHtml}</p>
-                        </div>
-                    </a>
-                `;
-                productsGrid.innerHTML += productCardHtml;
+        }
+        
+        function logoutUser(event) {
+            event.preventDefault(); 
+            auth.signOut().then(() => {
+                alert("You have been successfully logged out.");
+                window.location.reload(); 
+            }).catch((error) => {
+                console.error("Logout error:", error);
+                alert("Error during logout.");
             });
         }
-
-        // --- 3. ФУНКЦИЯ ПРИМЕНЕНИЯ ФИЛЬТРОВ К ДАННЫМ ---
-        function applyFilters() {
-            const filteredProducts = allProducts.filter(product => {
-                // Сравниваем brand из Firebase с выбранным фильтром
-                let matchesBrand = (currentBrandFilter === 'all' || product.brand === currentBrandFilter);
-                return matchesBrand;
-            });
-            renderProductsGrid(filteredProducts);
-        }
-
-        // --- 4. ФУНКЦИЯ ФИЛЬТРАЦИИ ПО БРЕНДУ ---
-        function filterProducts(brand) {
-            currentBrandFilter = brand;
-            
-            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
-            const activeBrandButton = document.querySelector(`.filter-tab[data-brand="${brand}"]`);
-            if (activeBrandButton) { activeBrandButton.classList.add('active'); }
-            
-            applyFilters();
-        }
-
-        // --- CART FUNCTIONS ---
+        
         function updateCartCount() {
             const cart = JSON.parse(localStorage.getItem('gotyxan_cart') || '[]');
             const count = cart.reduce((total, item) => total + item.quantity, 0);
@@ -141,11 +163,17 @@
                 el.textContent = count;
             });
         }
-
-        // Initialize
+        
+        // --- 4. ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ ---
         document.addEventListener('DOMContentLoaded', () => {
+            // Запускаем загрузку всех товаров по умолчанию
+            fetchAndDisplayProducts('all'); 
+            
+            // Запускаем логику навигации
+            auth.onAuthStateChanged((user) => {
+                updateNavigation(user);
+            });
             updateCartCount();
-            loadProductsFromFirebase();
         });
     </script>
 </body>
