@@ -36,7 +36,7 @@
     </footer>
 
     <script>
-        // 🚨 ВАЖНО: ЭТО ДАННЫЕ ВАШИХ ТОВАРОВ! ID ДОЛЖНЫ СОВПАДАТЬ С ТЕМИ, ЧТО В shop.html
+        // 🚨 ДАННЫЕ ВАШИХ ТОВАРОВ
         const PRODUCTS_DATA = [
             { id: 1, name: 'LEATHER T-SHIRT BLACK', brand: 'RICK OWENS', price: 110, originalPrice: null, image: 'https://cdn.whatsonthestar.com/uploads/1700683471450.png', description: 'Oversized, distressed leather t-shirt from the S/S 2024 collection. Minimalist design with raw hems. Perfect for a signature gothic look.', sizes: ['S', 'M', 'L', 'XL'] },
             { id: 2, name: 'DRKSHDW SWEATSHIRT', brand: 'RICK OWENS', price: 155, originalPrice: 680, image: 'https://i.ebayimg.com/images/g/pQYAAOSwtZhlhlrc/s-l1200.jpg', description: 'Heavy cotton crewneck sweatshirt with reverse stitching detail. Part of the DRKSHDW line, known for its focus on experimental silhouettes.', sizes: ['XS', 'S', 'M', 'L'] },
@@ -139,6 +139,9 @@
                 return;
             }
 
+            // Установка заголовка страницы
+            document.title = `${product.brand} - ${product.name} — GOTYXAN-PRO`;
+
             // Создание HTML для страницы деталей
             const priceHtml = product.originalPrice 
                 ? `<p class="detail-price"><span>€${product.originalPrice}</span> €${product.price}</p>`
@@ -148,6 +151,7 @@
                 `<button class="size-option" onclick="selectSize('${size}', this)">${size}</button>`
             ).join('');
 
+            // 🚀 ОБНОВЛЕННАЯ РАЗМЕТКА ДЛЯ СТИЛЬНОГО МАКЕТА
             container.innerHTML = `
                 <div class="product-details-layout">
                     <div class="product-image-area">
