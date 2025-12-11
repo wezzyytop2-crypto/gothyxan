@@ -3,84 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOTYXAN-PRO</title>
+    <title>HOME — GOTYXAN-PRO</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script> 
+    <script src="firebase-config.js"></script>
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
                 <span>GOTYXAN</span><span>-PRO</span>
             </a>
-            <ul class="nav-menu">
+            <ul class="nav-menu" id="main-nav-menu">
                 <li><a href="index.html" class="active">HOME</a></li>
                 <li><a href="shop.html">SHOP</a></li>
                 <li><a href="cart.html">CART <span class="cart-count">0</span></a></li>
-                <li><a href="checkout.html">CHECKOUT</a></li>
-                <li><a href="about.html">ABOUT</a></li>
-            </ul>
+                
+                <li id="auth-link-1"><a href="login.html">LOGIN</a></li>
+                <li id="auth-link-2"><a href="register.html">REGISTER</a></li>
+                </ul>
         </div>
     </nav>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>GOTYXAN-PRO</h1>
-            <p class="hero-subtitle">LUXURY AVANT-GARDE</p>
-            <a href="shop.html" class="btn">EXPLORE COLLECTION</a>
-        </div>
-    </section>
-
-    <!-- Featured -->
-    <section class="shop-section">
+    <section class="main-section">
         <div class="container">
-            <h2 class="section-title">CURRENT SELECTION</h2>
+            <h2 class="section-title" style="margin-top: 50px;">CURRENT SELECTION</h2>
             
-            <div class="products-grid">
-                <!-- Rick Owens -->
-                <div class="product-card">
-                    <img src="https://cdn.shopify.com/s/files/1/0266/5765/9343/products/RICKOWENS_SS21_GETHBOOTS_LEATHER_MILK_1_1800x.jpg?v=1614296822" 
-                         alt="Rick Owens Geobasket" class="product-image">
+            <div id="welcome-message" style="text-align: center; margin-top: -30px; margin-bottom: 50px; font-size: 20px; color: gold; display: none;">
+                Welcome back!
+            </div>
+
+            <div class="products-grid" style="grid-template-columns: repeat(3, 1fr); margin-top: 30px;">
+                
+                <a href="product.html?id=RO_GEO" class="product-card">
+                    <img src="images/product-1.jpg" alt="Rick Owens Geobasket" class="product-image">
                     <div class="product-info">
                         <p class="product-brand">RICK OWENS</p>
                         <h3 class="product-name">GEOBASKET LEATHER SNEAKERS</h3>
                         <p class="product-price">€540</p>
-                        <button class="btn-add" onclick="addToCart({id: 1, name: 'RICK OWENS GEOBASKET LEATHER SNEAKERS', price: 540, brand: 'RICK OWENS', category: 'sneakers', image: 'https://cdn.shopify.com/s/files/1/0266/5765/9343/products/RICKOWENS_SS21_GETHBOOTS_LEATHER_MILK_1_1800x.jpg?v=1614296822'})">
-                            ADD TO CART
-                        </button>
+                        <button class="btn-add-details" onclick="event.preventDefault(); alert('Add to cart logic here.');">ADD TO CART</button>
                     </div>
-                </div>
+                </a>
 
-                <!-- Balenciaga -->
-                <div class="product-card">
-                    <img src="https://balenciaga.dam.kering.com/m/38960d5fa3c3b5c/Large-692359TWCG11000_F.jpg?v=3" 
-                         alt="Balenciaga Track" class="product-image">
+                <a href="product.html?id=BAL_TRACK2" class="product-card">
+                    <img src="images/product-2.jpg" alt="Balenciaga Track 2" class="product-image">
                     <div class="product-info">
                         <p class="product-brand">BALENCIAGA</p>
                         <h3 class="product-name">TRACK 2 SNEAKERS BLACK</h3>
                         <p class="product-price"><span>€950</span> €428</p>
-                        <button class="btn-add" onclick="addToCart({id: 2, name: 'BALENCIAGA TRACK 2 SNEAKERS BLACK', price: 428, brand: 'BALENCIAGA', category: 'sneakers', image: 'https://balenciaga.dam.kering.com/m/38960d5fa3c3b5c/Large-692359TWCG11000_F.jpg?v=3'})">
-                            ADD TO CART
-                        </button>
+                        <button class="btn-add-details" onclick="event.preventDefault(); alert('Add to cart logic here.');">ADD TO CART</button>
                     </div>
-                </div>
-
-                <!-- Margiela -->
-                <div class="product-card">
-                    <img src="https://www.maisonmargiela.com/on/demandware.static/-/Sites-margielaEU-Library/default/dw9c67542e/images/22AW/MWM0124761-23A_1.jpg" 
-                         alt="Maison Margiela Tabi" class="product-image">
+                </a>
+                
+                <a href="product.html?id=MM_TABI" class="product-card">
+                    <img src="images/product-3.jpg" alt="Maison Margiela Tabi" class="product-image">
                     <div class="product-info">
                         <p class="product-brand">MAISON MARGIELA</p>
                         <h3 class="product-name">TABI ANKLE BOOTS</h3>
                         <p class="product-price">€625</p>
-                        <button class="btn-add" onclick="addToCart({id: 3, name: 'MAISON MARGIELA TABI ANKLE BOOTS', price: 625, brand: 'MAISON MARGIELA', category: 'boots', image: 'https://www.maisonmargiela.com/on/demandware.static/-/Sites-margielaEU-Library/default/dw9c67542e/images/22AW/MWM0124761-23A_1.jpg'})">
-                            ADD TO CART
-                        </button>
+                        <button class="btn-add-details" onclick="event.preventDefault(); alert('Add to cart logic here.');">ADD TO CART</button>
                     </div>
-                </div>
+                </a>
+
             </div>
+            
         </div>
     </section>
 
@@ -90,9 +78,55 @@
         </div>
     </footer>
 
-    <script src="js/cart.js"></script>
     <script>
-        // Simple cart functions
+        // auth должна быть определена в firebase-config.js
+        const auth = firebase.auth(); 
+        const authLink1 = document.getElementById('auth-link-1');
+        const authLink2 = document.getElementById('auth-link-2');
+
+        // --- 1. ФУНКЦИЯ ОБНОВЛЕНИЯ МЕНЮ ---
+        function updateNavigation(user) {
+            authLink1.innerHTML = '';
+            authLink2.innerHTML = '';
+            
+            const welcomeMessage = document.getElementById('welcome-message');
+
+            if (user) {
+                // Пользователь ВОШЕЛ В СИСТЕМУ
+                const userName = user.displayName ? user.displayName.split(' ')[0] : user.email;
+                welcomeMessage.innerHTML = `Welcome back, <strong>${userName}!</strong>`;
+                welcomeMessage.style.display = 'block';
+
+                authLink1.innerHTML = `<a href="profile.html">PROFILE</a>`;
+                authLink2.innerHTML = `<a href="#" onclick="logoutUser(event)">LOG OUT</a>`;
+
+            } else {
+                // Пользователь НЕ ВОШЕЛ В СИСТЕМУ
+                welcomeMessage.style.display = 'none';
+                
+                authLink1.innerHTML = `<a href="login.html">LOGIN</a>`;
+                authLink2.innerHTML = `<a href="register.html">REGISTER</a>`;
+            }
+        }
+        
+        // --- 2. ФУНКЦИЯ ВЫХОДА ИЗ СИСТЕМЫ ---
+        function logoutUser(event) {
+            event.preventDefault(); 
+            auth.signOut().then(() => {
+                alert("You have been successfully logged out.");
+                window.location.reload(); 
+            }).catch((error) => {
+                console.error("Logout error:", error);
+                alert("Error during logout.");
+            });
+        }
+
+        // --- 3. НАБЛЮДЕНИЕ ЗА СТАТУСОМ АУТЕНТИФИКАЦИИ FIREBASE ---
+        auth.onAuthStateChanged((user) => {
+            updateNavigation(user);
+        });
+
+        // --- 4. ФУНКЦИЯ ОБНОВЛЕНИЯ СЧЕТЧИКА КОРЗИНЫ ---
         function updateCartCount() {
             const cart = JSON.parse(localStorage.getItem('gotyxan_cart') || '[]');
             const count = cart.reduce((total, item) => total + item.quantity, 0);
@@ -100,43 +134,11 @@
                 el.textContent = count;
             });
         }
-        
-        function addToCart(product) {
-            let cart = JSON.parse(localStorage.getItem('gotyxan_cart') || '[]');
-            const existingItem = cart.find(item => item.id === product.id);
-            
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({...product, quantity: 1});
-            }
-            
-            localStorage.setItem('gotyxan_cart', JSON.stringify(cart));
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
             updateCartCount();
-            
-            // Show notification
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 100px;
-                right: 20px;
-                background: white;
-                color: black;
-                padding: 15px 25px;
-                font-size: 12px;
-                letter-spacing: 2px;
-                text-transform: uppercase;
-                z-index: 10000;
-                border: 1px solid black;
-            `;
-            notification.textContent = `ADDED: ${product.name}`;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => notification.remove(), 3000);
-        }
-        
-        // Initialize
-        document.addEventListener('DOMContentLoaded', updateCartCount);
+        });
     </script>
 </body>
 </html>
