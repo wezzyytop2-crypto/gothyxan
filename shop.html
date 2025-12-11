@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
@@ -24,184 +23,200 @@
         </div>
     </nav>
 
-    <!-- Shop Section -->
     <section class="shop-section">
         <div class="container">
             <h2 class="section-title">COLLECTION</h2>
             
-            <!-- Filter Tabs -->
-            <div class="filter-tabs">
-                <button class="filter-tab active" onclick="filterProducts('all')">ALL</button>
-                <button class="filter-tab" onclick="filterProducts('rick')">RICK OWENS</button>
-                <button class="filter-tab" onclick="filterProducts('balenciaga')">BALENCIAGA</button>
-                <button class="filter-tab" onclick="filterProducts('margiela')">MAISON MARGIELA</button>
-                <button class="filter-tab" onclick="filterProducts('ann')">ANN DEMEULEMEESTER</button>
+            <div class="shop-layout">
+            
+                <aside class="shop-sidebar">
+                    <h3 class="sidebar-title">CATEGORIES</h3>
+                    <ul class="category-filter-list">
+                        <li><a href="#" class="category-tab active" data-category="all" onclick="filterByCategory('all')">ALL PRODUCTS</a></li>
+                        
+                        <li class="has-children">
+                            <a href="#" class="category-tab" data-category="clothing" onclick="filterByCategory('clothing')">CLOTHING</a>
+                            <ul class="sub-category-list">
+                                <li><a href="#" class="category-tab" data-category="clothing-mens" onclick="filterByCategory('clothing-mens')">Men's</a></li>
+                                <li><a href="#" class="category-tab" data-category="clothing-womens" onclick="filterByCategory('clothing-womens')">Women's</a></li>
+                            </ul>
+                        </li>
+                        
+                        <li class="has-children">
+                            <a href="#" class="category-tab" data-category="footwear" onclick="filterByCategory('footwear')">FOOTWEAR</a>
+                            <ul class="sub-category-list">
+                                <li><a href="#" class="category-tab" data-category="footwear-mens" onclick="filterByCategory('footwear-mens')">Men's</a></li>
+                                <li><a href="#" class="category-tab" data-category="footwear-womens" onclick="filterByCategory('footwear-womens')">Women's</a></li>
+                            </ul>
+                        </li>
+                        
+                        <li><a href="#" class="category-tab" data-category="accessories" onclick="filterByCategory('accessories')">ACCESSORIES</a></li>
+                        
+                    </ul>
+                </aside>
+                
+                <div class="shop-content">
+                    
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" onclick="filterProducts('all')">ALL BRANDS</button>
+                        <button class="filter-tab" onclick="filterProducts('rick')">RICK OWENS</button>
+                        <button class="filter-tab" onclick="filterProducts('balenciaga')">BALENCIAGA</button>
+                        <button class="filter-tab" onclick="filterProducts('margiela')">MAISON MARGIELA</button>
+                        <button class="filter-tab" onclick="filterProducts('ann')">ANN DEMEULEMEESTER</button>
+                        <button class="filter-tab" onclick="filterProducts('yohji')">YOHJI YAMAMOTO</button>
+                        <button class="filter-tab" onclick="filterProducts('raf')">RAF SIMONS</button>
+                    </div>
+
+                    <div class="products-grid" id="products-grid">
+                        
+                        <div class="product-card" data-brand="rick" data-category="clothing" data-gender="mens">
+                            <img src="https://cdn.whatsonthestar.com/uploads/1700683471450.png" alt="Rick Owens Leather Tee" class="product-image">
+                            <div class="product-info">
+                                <p class="product-brand">RICK OWENS</p>
+                                <h3 class="product-name">LEATHER T-SHIRT BLACK</h3>
+                                <p class="product-price">€110</p>
+                                <button class="btn-add" onclick="addToCart({id: 1, name: 'RICK OWENS x CHAMPION T-SHIRT BLACK', price: 110, brand: 'RICK OWENS', category: 'clothing', gender: 'mens'})">
+                                    ADD TO CART
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-brand="rick" data-category="clothing" data-gender="womens">
+                            <img src="https://i.ebayimg.com/images/g/pQYAAOSwtZhlhlrc/s-l1200.jpg" alt="Rick Owens Hoodie" class="product-image">
+                            <div class="product-info">
+                                <p class="product-brand">RICK OWENS</p>
+                                <h3 class="product-name">RICK OWENS DRKSHDW SWEATSHIRT</h3>
+                                <p class="product-price"><span>€680</span> €155</p>
+                                <button class="btn-add" onclick="addToCart({id: 2, name: 'RICK OWENS DRKSHDW SWEATSHIRT', price: 155, brand: 'RICK OWENS', category: 'clothing', gender: 'womens'})">
+                                    ADD TO CART
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-brand="rick" data-category="footwear" data-gender="mens">
+                            <img src="https://cdn-images.farfetch-contents.com/18/47/12/66/18471266_41548022_1000.jpg" alt="Rick Owens Boots" class="product-image">
+                            <div class="product-info">
+                                <p class="product-brand">RICK OWENS</p>
+                                <h3 class="product-name">GETH BOOTS LEATHER</h3>
+                                <p class="product-price">€245</p>
+                                <button class="btn-add" onclick="addToCart({id: 3, name: 'RICK OWENS GETH ARMY MID-CALF BOOTS', price: 245, brand: 'RICK OWENS', category: 'footwear', gender: 'mens'})">
+                                    ADD TO CART
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-brand="balenciaga" data-category="footwear" data-gender="womens">
+                            <img src="https://avatars.mds.yandex.net/i?id=25dde95eefb31ea6e237ce125b07d2cf_l-2918686-images-thumbs&n=13" alt="Balenciaga Track" class="product-image">
+                            <div class="product-info">
+                                <p class="product-brand">BALENCIAGA</p>
+                                <h3 class="product-name">TRACK 2 SNEAKERS</h3>
+                                <p class="product-price"><span>€440</span> €195</p>
+                                <button class="btn-add" onclick="addToCart({id: 4, name: 'BALENCIAGA TRACK 2 SNEAKERS', price: 195, brand: 'BALENCIAGA', category: 'footwear', gender: 'womens'})">
+                                    ADD TO CART
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-brand="balenciaga" data-category="clothing" data-gender="mens">
+                            <img src="https://cdn-images.farfetch-contents.com/21/89/69/33/21896933_51688724_1000.jpg" alt="Balenciaga Jacket" class="product-image">
+                            <div class="product-info">
+                                <p class="product-brand">BALENCIAGA</p>
+                                <h3 class="product-name">OVERSIZED DENIM JACKET</h3>
+                                <p class="product-price"><span>€1,250</span> €563</p>
+                                <button class="btn-add" onclick="addToCart({id: 5, name: 'BALENCIAGA OVERSIZED DENIM JACKET', price: 563, brand: 'BALENCIAGA', category: 'clothing', gender: 'mens'})">
+                                    ADD TO CART
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-brand="balenciaga" data-category="accessories" data-gender="womens">
+                            <img src="https://avatars.mds.yandex.net/i?id=abcaee7ff75b26161f78717672e4f584_l-16477287-images-thumbs&n=13 v=1" alt="Balenciaga Bag" class="product-image">
+                            <div class="product-info">
+                                <p class="product-brand">BALENCIAGA</p>
+                                <h3 class="product-name">HOURGLASS BAG BLACK</h3>
+                                <p class="product-price"><span>€1,450</span> €653</p>
+                                <button class="btn-add" onclick="addToCart({id: 6, name: 'BALENCIAGA HOURGLASS BAG BLACK', price: 653, brand: 'BALENCIAGA', category: 'accessories', gender: 'womens'})">
+                                    ADD TO CART
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-brand="margiela" data-category="footwear" data-gender="womens">
+                            <img src="https://www.maisonmargiela.com/on/demandware.static/-/Sites-margielaEU-Library/default/dw9c67542e/images/22AW/MWM0124761-23A_1.jpg" alt="Margiela Tabi" class="product-image">
+                            <div class="product-info">
+                                <p class="product-brand">MAISON MARGIELA</p>
+                                <h3 class="product-name">TABI ANKLE BOOTS</h3>
+                                <p class="product-price">€625</p>
+                                <button class="btn-add" onclick="addToCart({id: 7, name: 'MAISON MARGIELA TABI ANKLE BOOTS', price: 625, brand: 'MAISON MARGIELA', category: 'footwear', gender: 'womens'})">
+                                    ADD TO CART
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-brand="margiela" data-category="clothing" data-gender="womens">
+                            <img src="https://www.maisonmargiela.com/on/demandware.static/-/Sites-margielaEU-Library/default/dwe5f3f50f/images/23SS/MMM0322861-000_1.jpg" alt="Margiela Blazer" class="product-image">
+                            <div class="product-info">
+                                <p class="product-brand">MAISON MARGIELA</p>
+                                <h3 class="product-name">DECONSTRUCTED BLAZER</h3>
+                                <p class="product-price"><span>€1,150</span> €518</p>
+                                <button class="btn-add" onclick="addToCart({id: 8, name: 'MAISON MARGIELA DECONSTRUCTED BLAZER', price: 518, brand: 'MAISON MARGIELA', category: 'clothing', gender: 'womens'})">
+                                    ADD TO CART
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-brand="ann" data-category="footwear" data-gender="mens">
+                            <img src="https://cdn.shopify.com/s/files/1/0266/5765/9343/products/ANNDEMEULEMEESTER_FW19_LACEBACKBOOTS_BLACK_1_1800x.jpg?v=1614296822" alt="Ann Demeulemeester Boots" class="product-image">
+                            <div class="product-info">
+                                <p class="product-brand">ANN DEMEULEMEESTER</p>
+                                <h3 class="product-name">LACE-UP LEATHER BOOTS</h3>
+                                <p class="product-price"><span>€850</span> €383</p>
+                                <button class="btn-add" onclick="addToCart({id: 9, name: 'ANN DEMEULEMEESTER LACE-UP LEATHER BOOTS', price: 383, brand: 'ANN DEMEULEMEESTER', category: 'footwear', gender: 'mens'})">
+                                    ADD TO CART
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-brand="ann" data-category="clothing" data-gender="womens">
+                            <img src="https://cdn.shopify.com/s/files/1/0266/5765/9343/products/ANNDEMEULEMEESTER_SS20_SILKSHIRT_BLACK_1_1800x.jpg?v=1614296822" alt="Ann Demeulemeester Shirt" class="product-image">
+                            <div class="product-info">
+                                <p class="product-brand">ANN DEMEULEMEESTER</p>
+                                <h3 class="product-name">SILK SHIRT BLACK</h3>
+                                <p class="product-price"><span>€620</span> €279</p>
+                                <button class="btn-add" onclick="addToCart({id: 10, name: 'ANN DEMEULEMEESTER SILK SHIRT BLACK', price: 279, brand: 'ANN DEMEULEMEESTER', category: 'clothing', gender: 'womens'})">
+                                    ADD TO CART
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-brand="yohji" data-category="clothing" data-gender="mens">
+                            <img src="https://cdn.shopify.com/s/files/1/0266/5765/9343/products/YOHJIYAMAMOTO_FW20_COAT_BLACK_1_1800x.jpg?v=1614296822" alt="Yohji Yamamoto Coat" class="product-image">
+                            <div class="product-info">
+                                <p class="product-brand">YOHJI YAMAMOTO</p>
+                                <h3 class="product-name">WOOL COAT BLACK</h3>
+                                <p class="product-price"><span>€1,800</span> €810</p>
+                                <button class="btn-add" onclick="addToCart({id: 11, name: 'YOHJI YAMAMOTO WOOL COAT BLACK', price: 810, brand: 'YOHJI YAMAMOTO', category: 'clothing', gender: 'mens'})">
+                                    ADD TO CART
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-brand="raf" data-category="clothing" data-gender="mens">
+                            <img src="https://cdn.shopify.com/s/files/1/0266/5765/9343/products/RAFSIMONS_FW20_SWEATER_BLACK_1_1800x.jpg?v=1614296822" alt="Raf Simons Sweater" class="product-image">
+                            <div class="product-info">
+                                <p class="product-brand">RAF SIMONS</p>
+                                <h3 class="product-name">KNIT SWEATER BLACK</h3>
+                                <p class="product-price"><span>€750</span> €338</p>
+                                <button class="btn-add" onclick="addToCart({id: 12, name: 'RAF SIMONS KNIT SWEATER BLACK', price: 338, brand: 'RAF SIMONS', category: 'clothing', gender: 'mens'})">
+                                    ADD TO CART
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
-
-            <!-- Products Grid -->
-            <div class="products-grid" id="products-grid">
-                <!-- Rick Owens Products -->
-                <div class="product-card" data-brand="rick">
-                    <img src="https://cdn.whatsonthestar.com/uploads/1700683471450.png" 
-                         alt="Rick Owens Leather Tee" class="product-image">
-                    <div class="product-info">
-                        <p class="product-brand">RICK OWENS</p>
-                        <h3 class="product-name">LEATHER T-SHIRT BLACK</h3>
-                        <p class="product-price">€110</p>
-                        <button class="btn-add" onclick="addToCart({id: 1, name: 'RICK OWENS x CHAMPION T-SHIRT BLACK', price: 110, brand: 'RICK OWENS', category: 'clothing'})">
-                            ADD TO CART
-                        </button>
-                    </div>
-                </div>
-
-                <div class="product-card" data-brand="rick">
-                    <img src="https://i.ebayimg.com/images/g/pQYAAOSwtZhlhlrc/s-l1200.jpg" 
-                         alt="Rick Owens Hoodie" class="product-image">
-                    <div class="product-info">
-                        <p class="product-brand">RICK OWENS</p>
-                        <h3 class="product-name">RICK OWENS DRKSHDW SWEATSHIRT</h3>
-                        <p class="product-price"><span>€680</span> €155</p>
-                        <button class="btn-add" onclick="addToCart({id: 2, name: 'RICK OWENS DRKSHDW SWEATSHIRT', price: 155, brand: 'RICK OWENS', category: 'clothing'})">
-                            ADD TO CART
-                        </button>
-                    </div>
-                </div>
-
-                <div class="product-card" data-brand="rick">
-                    <img src="https://cdn-images.farfetch-contents.com/18/47/12/66/18471266_41548022_1000.jpg" 
-                         alt="Rick Owens Boots" class="product-image">
-                    <div class="product-info">
-                        <p class="product-brand">RICK OWENS</p>
-                        <h3 class="product-name">GETH BOOTS LEATHER</h3>
-                        <p class="product-price">€245</p>
-                        <button class="btn-add" onclick="addToCart({id: 3, name: 'RICK OWENS GETH ARMY MID-CALF BOOTS', price: 245, brand: 'RICK OWENS', category: 'boots'})">
-                            ADD TO CART
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Balenciaga Products -->
-                <div class="product-card" data-brand="balenciaga">
-                    <img src="https://avatars.mds.yandex.net/i?id=25dde95eefb31ea6e237ce125b07d2cf_l-2918686-images-thumbs&n=13" 
-                         alt="Balenciaga Track" class="product-image">
-                    <div class="product-info">
-                        <p class="product-brand">BALENCIAGA</p>
-                        <h3 class="product-name">TRACK 2 SNEAKERS</h3>
-                        <p class="product-price"><span>€440</span> €195</p>
-                        <button class="btn-add" onclick="addToCart({id: 4, name: 'BALENCIAGA TRACK 2 SNEAKERS', price: 195, brand: 'BALENCIAGA', category: 'sneakers'})">
-                            ADD TO CART
-                        </button>
-                    </div>
-                </div>
-
-                <div class="product-card" data-brand="balenciaga">
-                    <img src="<img src="https://cdn-images.farfetch-contents.com/21/89/69/33/21896933_51688724_1000.jpg" alt="Picture background"/>" 
-                         alt="Balenciaga Jacket" class="product-image">
-                    <div class="product-info">
-                        <p class="product-brand">BALENCIAGA</p>
-                        <h3 class="product-name">OVERSIZED DENIM JACKET</h3>
-                        <p class="product-price"><span>€1,250</span> €563</p>
-                        <button class="btn-add" onclick="addToCart({id: 5, name: 'BALENCIAGA OVERSIZED DENIM JACKET', price: 563, brand: 'BALENCIAGA', category: 'clothing'})">
-                            ADD TO CART
-                        </button>
-                    </div>
-                </div>
-
-                <div class="product-card" data-brand="balenciaga">
-                    <img src="https://avatars.mds.yandex.net/i?id=abcaee7ff75b26161f78717672e4f584_l-16477287-images-thumbs&n=13 v=1" 
-                         alt="Balenciaga Bag" class="product-image">
-                    <div class="product-info">
-                        <p class="product-brand">BALENCIAGA</p>
-                        <h3 class="product-name">HOURGLASS BAG BLACK</h3>
-                        <p class="product-price"><span>€1,450</span> €653</p>
-                        <button class="btn-add" onclick="addToCart({id: 6, name: 'BALENCIAGA HOURGLASS BAG BLACK', price: 653, brand: 'BALENCIAGA', category: 'accessories'})">
-                            ADD TO CART
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Maison Margiela Products -->
-                <div class="product-card" data-brand="margiela">
-                    <img src="https://www.maisonmargiela.com/on/demandware.static/-/Sites-margielaEU-Library/default/dw9c67542e/images/22AW/MWM0124761-23A_1.jpg" 
-                         alt="Margiela Tabi" class="product-image">
-                    <div class="product-info">
-                        <p class="product-brand">MAISON MARGIELA</p>
-                        <h3 class="product-name">TABI ANKLE BOOTS</h3>
-                        <p class="product-price">€625</p>
-                        <button class="btn-add" onclick="addToCart({id: 7, name: 'MAISON MARGIELA TABI ANKLE BOOTS', price: 625, brand: 'MAISON MARGIELA', category: 'boots'})">
-                            ADD TO CART
-                        </button>
-                    </div>
-                </div>
-
-                <div class="product-card" data-brand="margiela">
-                    <img src="https://www.maisonmargiela.com/on/demandware.static/-/Sites-margielaEU-Library/default/dwe5f3f50f/images/23SS/MMM0322861-000_1.jpg" 
-                         alt="Margiela Blazer" class="product-image">
-                    <div class="product-info">
-                        <p class="product-brand">MAISON MARGIELA</p>
-                        <h3 class="product-name">DECONSTRUCTED BLAZER</h3>
-                        <p class="product-price"><span>€1,150</span> €518</p>
-                        <button class="btn-add" onclick="addToCart({id: 8, name: 'MAISON MARGIELA DECONSTRUCTED BLAZER', price: 518, brand: 'MAISON MARGIELA', category: 'clothing'})">
-                            ADD TO CART
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Ann Demeulemeester Products -->
-                <div class="product-card" data-brand="ann">
-                    <img src="https://cdn.shopify.com/s/files/1/0266/5765/9343/products/ANNDEMEULEMEESTER_FW19_LACEBACKBOOTS_BLACK_1_1800x.jpg?v=1614296822" 
-                         alt="Ann Demeulemeester Boots" class="product-image">
-                    <div class="product-info">
-                        <p class="product-brand">ANN DEMEULEMEESTER</p>
-                        <h3 class="product-name">LACE-UP LEATHER BOOTS</h3>
-                        <p class="product-price"><span>€850</span> €383</p>
-                        <button class="btn-add" onclick="addToCart({id: 9, name: 'ANN DEMEULEMEESTER LACE-UP LEATHER BOOTS', price: 383, brand: 'ANN DEMEULEMEESTER', category: 'boots'})">
-                            ADD TO CART
-                        </button>
-                    </div>
-                </div>
-
-                <div class="product-card" data-brand="ann">
-                    <img src="https://cdn.shopify.com/s/files/1/0266/5765/9343/products/ANNDEMEULEMEESTER_SS20_SILKSHIRT_BLACK_1_1800x.jpg?v=1614296822" 
-                         alt="Ann Demeulemeester Shirt" class="product-image">
-                    <div class="product-info">
-                        <p class="product-brand">ANN DEMEULEMEESTER</p>
-                        <h3 class="product-name">SILK SHIRT BLACK</h3>
-                        <p class="product-price"><span>€620</span> €279</p>
-                        <button class="btn-add" onclick="addToCart({id: 10, name: 'ANN DEMEULEMEESTER SILK SHIRT BLACK', price: 279, brand: 'ANN DEMEULEMEESTER', category: 'clothing'})">
-                            ADD TO CART
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Yohji Yamamoto -->
-                <div class="product-card" data-brand="yohji">
-                    <img src="https://cdn.shopify.com/s/files/1/0266/5765/9343/products/YOHJIYAMAMOTO_FW20_COAT_BLACK_1_1800x.jpg?v=1614296822" 
-                         alt="Yohji Yamamoto Coat" class="product-image">
-                    <div class="product-info">
-                        <p class="product-brand">YOHJI YAMAMOTO</p>
-                        <h3 class="product-name">WOOL COAT BLACK</h3>
-                        <p class="product-price"><span>€1,800</span> €810</p>
-                        <button class="btn-add" onclick="addToCart({id: 11, name: 'YOHJI YAMAMOTO WOOL COAT BLACK', price: 810, brand: 'YOHJI YAMAMOTO', category: 'clothing'})">
-                            ADD TO CART
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Raf Simons -->
-                <div class="product-card" data-brand="raf">
-                    <img src="https://cdn.shopify.com/s/files/1/0266/5765/9343/products/RAFSIMONS_FW20_SWEATER_BLACK_1_1800x.jpg?v=1614296822" 
-                         alt="Raf Simons Sweater" class="product-image">
-                    <div class="product-info">
-                        <p class="product-brand">RAF SIMONS</p>
-                        <h3 class="product-name">KNIT SWEATER BLACK</h3>
-                        <p class="product-price"><span>€750</span> €338</p>
-                        <button class="btn-add" onclick="addToCart({id: 12, name: 'RAF SIMONS KNIT SWEATER BLACK', price: 338, brand: 'RAF SIMONS', category: 'clothing'})">
-                            ADD TO CART
-                        </button>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </section>
 
@@ -212,18 +227,78 @@
     </footer>
 
     <script>
-        // Filter products
-        function filterProducts(brand) {
-            const products = document.querySelectorAll('.product-card');
-            const tabs = document.querySelectorAll('.filter-tab');
+        // Global variables to store the current filter state
+        let currentBrandFilter = 'all';
+        let currentCategoryFilter = 'all';
+
+        // --- 1. CATEGORY FILTER FUNCTION (NEW) ---
+        function filterByCategory(category) {
+            currentCategoryFilter = category;
             
-            // Update active tab
-            tabs.forEach(tab => tab.classList.remove('active'));
+            // Reset Brand filter tabs and state to 'all'
+            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector('.filter-tabs button[onclick="filterProducts(\'all\')"]').classList.add('active');
+            currentBrandFilter = 'all'; 
+
+            // Update active class for category links
+            document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+            const activeCategoryLink = document.querySelector(`.category-tab[data-category="${category}"]`);
+            if (activeCategoryLink) {
+                activeCategoryLink.classList.add('active');
+            }
+
+            // Apply both filters
+            applyFilters();
+        }
+
+        // --- 2. BRAND FILTER FUNCTION (UPDATED) ---
+        function filterProducts(brand) {
+            currentBrandFilter = brand;
+            
+            // Update active class for brand tabs
+            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
             event.target.classList.add('active');
             
-            // Filter products
+            // Reset Category filter links and state to 'all'
+            document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector('.category-tab[data-category="all"]').classList.add('active');
+            currentCategoryFilter = 'all'; 
+
+            // Apply both filters
+            applyFilters();
+        }
+
+        // --- 3. CORE FILTER APPLICATION FUNCTION ---
+        function applyFilters() {
+            const products = document.querySelectorAll('.product-card');
+
             products.forEach(product => {
-                if (brand === 'all' || product.dataset.brand === brand) {
+                const productBrand = product.dataset.brand;
+                const productCategory = product.dataset.category; 
+                const productGender = product.dataset.gender;
+
+                // Check Brand Match
+                let matchesBrand = (currentBrandFilter === 'all' || productBrand === currentBrandFilter);
+                
+                // Check Category Match
+                let matchesCategory = false;
+                
+                if (currentCategoryFilter === 'all') {
+                    matchesCategory = true;
+                } else if (currentCategoryFilter === productCategory) {
+                    // Match for top-level category (e.g., 'clothing')
+                    matchesCategory = true;
+                } else if (currentCategoryFilter.includes('-')) {
+                    // Match for sub-category (e.g., 'clothing-mens')
+                    const [requiredCategory, requiredGender] = currentCategoryFilter.split('-');
+
+                    if (productCategory === requiredCategory && productGender === requiredGender) {
+                        matchesCategory = true;
+                    }
+                }
+
+                // Show product if BOTH filters match
+                if (matchesBrand && matchesCategory) {
                     product.style.display = 'block';
                 } else {
                     product.style.display = 'none';
@@ -231,7 +306,7 @@
             });
         }
         
-        // Cart functions
+        // --- CART FUNCTIONS (KEPT AS IS) ---
         function updateCartCount() {
             const cart = JSON.parse(localStorage.getItem('gotyxan_cart') || '[]');
             const count = cart.reduce((total, item) => total + item.quantity, 0);
@@ -275,7 +350,11 @@
         }
         
         // Initialize
-        document.addEventListener('DOMContentLoaded', updateCartCount);
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartCount();
+            // Set initial active class for "ALL PRODUCTS"
+            document.querySelector('.category-tab[data-category="all"]').classList.add('active');
+        });
     </script>
 </body>
 </html>
