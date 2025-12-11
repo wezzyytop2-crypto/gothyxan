@@ -669,3 +669,144 @@ body {
             color: var(--white);
             font-weight: 400;
         }
+/* ------------------------------------------- */
+/* 📦 PRODUCT DETAILS PAGE (PDP) STYLES */
+/* ------------------------------------------- */
+
+.product-details-section {
+    padding: 150px 0 100px;
+    min-height: 80vh;
+}
+
+.product-details-layout {
+    display: grid;
+    grid-template-columns: 3fr 2fr; /* 3/5 для изображения, 2/5 для информации */
+    gap: 100px;
+    align-items: flex-start;
+}
+
+.product-image-area {
+    /* Контейнер для изображения */
+}
+
+.detail-image {
+    width: 100%;
+    height: 90vh; /* Высокое изображение для эффектности */
+    object-fit: cover;
+    background: var(--gray);
+}
+
+.product-info-area {
+    padding-top: 50px;
+    position: sticky; /* Чтобы информация прокручивалась вместе с изображением */
+    top: 150px;
+}
+
+.detail-brand {
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 15px;
+    font-weight: 300;
+}
+
+.detail-name {
+    font-size: 32px;
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 25px;
+}
+
+.detail-price {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 40px;
+}
+
+    .detail-price span {
+        text-decoration: line-through;
+        opacity: 0.5;
+        margin-right: 15px;
+        font-size: 14px;
+    }
+
+/* Size Selection */
+.size-selection {
+    margin-bottom: 40px;
+    border-top: 1px solid var(--border);
+    padding-top: 30px;
+}
+
+.size-title {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+.size-options-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.size-option {
+    background: var(--black);
+    color: var(--white);
+    border: 1px solid var(--border);
+    padding: 12px 18px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 300;
+}
+
+    .size-option:hover {
+        border-color: var(--white);
+    }
+
+    .size-option.active {
+        background: var(--white);
+        color: var(--black);
+        border-color: var(--white);
+    }
+
+/* Add to Cart Button on Details Page */
+.btn-add-details {
+    width: 100%;
+    padding: 20px 0;
+    margin-bottom: 50px;
+}
+
+/* Description */
+.product-description {
+    border-top: 1px solid var(--border);
+    padding-top: 30px;
+}
+
+.description-title {
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+/* Responsive Styles for PDP */
+@media (max-width: 1024px) {
+    .product-details-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .product-info-area {
+        position: static;
+        padding-top: 0;
+    }
+
+    .detail-image {
+        height: 60vh;
+    }
+}

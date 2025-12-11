@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRODUCT DETAILS — GOTYXAN-PRO</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span>GOTYXAN</span><span>-PRO</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="shop.html">SHOP</a></li>
+                <li><a href="cart.html">CART <span class="cart-count">0</span></a></li>
+                <li><a href="checkout.html">CHECKOUT</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="product-details-section">
+        <div class="container" id="product-details-container">
+            <p id="loading-message">Loading product details...</p>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 GOTYXAN-PRO — BERLIN</p>
+        </div>
+    </footer>
+
+    <script>
+        // 🚨 ВАЖНО: ЭТО ДАННЫЕ ВАШИХ ТОВАРОВ! ID ДОЛЖНЫ СОВПАДАТЬ С ТЕМИ, ЧТО В shop.html
+        const PRODUCTS_DATA = [
+            { id: 1, name: 'LEATHER T-SHIRT BLACK', brand: 'RICK OWENS', price: 110, originalPrice: null, image: 'https://cdn.whatsonthestar.com/uploads/1700683471450.png', description: 'Oversized, distressed leather t-shirt from the S/S 2024 collection. Minimalist design with raw hems. Perfect for a signature gothic look.', sizes: ['S', 'M', 'L', 'XL'] },
+            { id: 2, name: 'DRKSHDW SWEATSHIRT', brand: 'RICK OWENS', price: 155, originalPrice: 680, image: 'https://i.ebayimg.com/images/g/pQYAAOSwtZhlhlrc/s-l1200.jpg', description: 'Heavy cotton crewneck sweatshirt with reverse stitching detail. Part of the DRKSHDW line, known for its focus on experimental silhouettes.', sizes: ['XS', 'S', 'M', 'L'] },
+            { id: 3, name: 'GETH BOOTS LEATHER', brand: 'RICK OWENS', price: 245, originalPrice: null, image: 'https://cdn-images.farfetch-contents.com/18/47/12/66/18471266_41548022_1000.jpg', description: 'Signature Geth Army mid-calf boots in smooth black leather. Features chunky sole and side zip closure. Extremely durable and iconic.', sizes: ['40', '41', '42', '43', '44'] },
+            { id: 4, name: 'TRACK 2 SNEAKERS', brand: 'BALENCIAGA', price: 195, originalPrice: 440, image: 'https://avatars.mds.yandex.net/i?id=25dde95eefb31ea6e237ce125b07d2cf_l-2918686-images-thumbs&n=13', description: 'Multilayered sneaker with complex construction, inspired by high-tech hiking gear. Features double laces and heavy tread sole.', sizes: ['36', '37', '38', '39'] },
+            { id: 5, name: 'OVERSIZED DENIM JACKET', brand: 'BALENCIAGA', price: 563, originalPrice: 1250, image: 'https://cdn-images.farfetch-contents.com/21/89/69/33/21896933_51688724_1000.jpg', description: 'Extremely oversized fit denim jacket with faded black wash. A core piece for the Balenciaga street style aesthetic.', sizes: ['S', 'M', 'L'] },
+            { id: 6, name: 'HOURGLASS BAG BLACK', brand: 'BALENCIAGA', price: 653, originalPrice: 1450, image: 'https://avatars.mds.yandex.net/i?id=abcaee7ff75b26161f78717672e4f584_l-16477287-images-thumbs&n=13 v=1', description: 'Iconic Hourglass top handle bag with B-logo hardware. Made from crocodile-effect leather. Compact and structured.', sizes: ['One Size'] },
+            { id: 7, name: 'TABI ANKLE BOOTS', brand: 'MAISON MARGIELA', price: 625, originalPrice: null, image: 'https://www.maisonmargiela.com/on/demandware.static/-/Sites-margielaEU-Library/default/dw9c67542e/images/22AW/MWM0124761-23A_1.jpg', description: 'Signature Tabi split-toe ankle boots in black calfskin leather. Features cylindrical block heel. A key piece of Margiela history.', sizes: ['37', '38', '39', '40'] },
+            { id: 8, name: 'DECONSTRUCTED BLAZER', brand: 'MAISON MARGIELA', price: 518, originalPrice: 1150, image: 'https://www.maisonmargiela.com/on/demandware.static/-/Sites-margielaEU-Library/default/dwe5f3f50f/images/23SS/MMM0322861-000_1.jpg', description: 'Wool blazer with visible stitching and deconstructed lapels. Features the iconic four-stitch detail on the back neck.', sizes: ['38', '40', '42'] },
+            { id: 9, name: 'LACE-UP LEATHER BOOTS', brand: 'ANN DEMEULEMEESTER', price: 383, originalPrice: 850, image: 'https://cdn.shopify.com/s/files/1/0266/5765/9343/products/ANNDEMEULEMEESTER_FW19_LACEBACKBOOTS_BLACK_1_1800x.jpg?v=1614296822', description: 'High-shaft lace-up boots with unique wrap-around lace detail. Classic Ann Demeulemeester aesthetic.', sizes: ['41', '42', '43', '44'] },
+            { id: 10, name: 'SILK SHIRT BLACK', brand: 'ANN DEMEULEMEESTER', price: 279, originalPrice: 620, image: 'https://cdn.shopify.com/s/files/1/0266/5765/9343/products/ANNDEMEULEMEESTER_SS20_SILKSHIRT_BLACK_1_1800x.jpg?v=1614296822', description: 'Lightweight silk shirt with elongated silhouette. Perfect for layering and achieving a romantic goth look.', sizes: ['XS', 'S', 'M', 'L'] },
+            { id: 11, name: 'WOOL COAT BLACK', brand: 'YOHJI YAMAMOTO', price: 810, originalPrice: 1800, image: 'https://cdn.shopify.com/s/files/1/0266/5765/9343/products/YOHJIYAMAMOTO_FW20_COAT_BLACK_1_1800x.jpg?v=1614296822', description: 'Signature oversized wool coat. Known for its draping and unstructured form, defining the Yohji aesthetic.', sizes: ['1', '2', '3'] },
+            { id: 12, name: 'KNIT SWEATER BLACK', brand: 'RAF SIMONS', price: 338, originalPrice: 750, image: 'https://cdn.shopify.com/s/files/1/0266/5765/9343/products/RAFSIMONS_FW20_SWEATER_BLACK_1_1800x.jpg?v=1614296822', description: 'Heavyweight knit sweater with exaggerated proportions and subtle logo detail. A staple of modern Raf Simons collections.', sizes: ['M', 'L', 'XL'] }
+        ];
+
+        let selectedSize = null; // Переменная для хранения выбранного размера
+
+        // --- 1. ФУНКЦИИ КОРЗИНЫ ---
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('gotyxan_cart') || '[]');
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.querySelectorAll('.cart-count').forEach(el => {
+                el.textContent = count;
+            });
+        }
+        
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: white;
+                color: black;
+                padding: 15px 25px;
+                font-size: 12px;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                z-index: 10000;
+                border: 1px solid black;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        // --- 2. ЛОГИКА ВЫБОРА РАЗМЕРА ---
+        function selectSize(size, element) {
+            selectedSize = size;
+            // Сброс активного состояния со всех кнопок
+            document.querySelectorAll('.size-option').forEach(btn => btn.classList.remove('active'));
+            // Установка активного состояния на выбранную кнопку
+            element.classList.add('active');
+            
+            // Если была ошибка "Выберите размер", убираем ее
+            document.getElementById('size-error').style.display = 'none';
+        }
+
+        // --- 3. ДОБАВЛЕНИЕ В КОРЗИНУ С РАЗМЕРОМ ---
+        function addToCartWithDetails(product) {
+            if (!selectedSize) {
+                document.getElementById('size-error').style.display = 'block';
+                return; // Остановить выполнение, если размер не выбран
+            }
+
+            let cart = JSON.parse(localStorage.getItem('gotyxan_cart') || '[]');
+            
+            // Добавляем размер к продукту для корзины
+            const productToAdd = {...product, size: selectedSize};
+            
+            // Ищем элемент, который совпадает и по ID, и по РАЗМЕРУ
+            const existingItem = cart.find(item => item.id === productToAdd.id && item.size === productToAdd.size);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                productToAdd.quantity = 1;
+                cart.push(productToAdd);
+            }
+            
+            localStorage.setItem('gotyxan_cart', JSON.stringify(cart));
+            updateCartCount();
+            showNotification(`ADDED: ${product.name} (${selectedSize})`);
+        }
+
+        // --- 4. ЗАГРУЗКА ДЕТАЛЕЙ ПРОДУКТА ---
+        function loadProductDetails() {
+            const params = new URLSearchParams(window.location.search);
+            const productId = parseInt(params.get('id'));
+
+            const product = PRODUCTS_DATA.find(p => p.id === productId);
+            const container = document.getElementById('product-details-container');
+            
+            // Скрыть сообщение о загрузке
+            document.getElementById('loading-message').style.display = 'none';
+
+            if (!product) {
+                container.innerHTML = `<h3 style="text-align: center; margin-top: 50px;">Product not found.</h3>`;
+                return;
+            }
+
+            // Создание HTML для страницы деталей
+            const priceHtml = product.originalPrice 
+                ? `<p class="detail-price"><span>€${product.originalPrice}</span> €${product.price}</p>`
+                : `<p class="detail-price">€${product.price}</p>`;
+            
+            const sizesHtml = product.sizes.map(size => 
+                `<button class="size-option" onclick="selectSize('${size}', this)">${size}</button>`
+            ).join('');
+
+            container.innerHTML = `
+                <div class="product-details-layout">
+                    <div class="product-image-area">
+                        <img src="${product.image}" alt="${product.name}" class="detail-image">
+                    </div>
+                    <div class="product-info-area">
+                        <p class="detail-brand">${product.brand}</p>
+                        <h1 class="detail-name">${product.name}</h1>
+                        ${priceHtml}
+                        
+                        <div class="size-selection">
+                            <p class="size-title">SIZE</p>
+                            <div class="size-options-wrapper">
+                                ${sizesHtml}
+                            </div>
+                            <p id="size-error" style="color: red; font-size: 12px; margin-top: 10px; display: none;">Please select a size.</p>
+                        </div>
+
+                        <button class="btn btn-add-details" onclick='addToCartWithDetails(${JSON.stringify(product)})'>
+                            ADD TO CART
+                        </button>
+                        
+                        <div class="product-description">
+                            <h2 class="description-title">DESCRIPTION</h2>
+                            <p>${product.description}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartCount();
+            loadProductDetails();
+        });
+    </script>
+</body>
+</html>
