@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN LOGIN — GOTYXAN-PRO</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <section class="admin-login-section">
+        <div class="container">
+            <div class="login-box">
+                <h2 class="section-title">ADMIN LOGIN</h2>
+                <form id="admin-login-form">
+                    <div class="form-group">
+                        <label for="username">USERNAME</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">PASSWORD</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-full">LOG IN</button>
+                    <p id="login-error" class="error-message" style="display: none; color: red; margin-top: 15px; text-align: center;">Invalid credentials.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('admin-login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('login-error');
+
+            // 🔑 Ваша секретная комбинация: mellory / 45oponof
+            if (username === 'mellory' && password === '45oponof') {
+                // Имитация успешного входа: перенаправление на админ-панель
+                window.location.href = 'admin-panel.html';
+            } else {
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
