@@ -57,9 +57,9 @@ body {
     color: var(--white);
 }
 
-.logo span:nth-child(2) {
-    font-weight: 400;
-}
+    .logo span:nth-child(2) {
+        font-weight: 400;
+    }
 
 .nav-menu {
     display: flex;
@@ -67,21 +67,21 @@ body {
     gap: 50px;
 }
 
-.nav-menu a {
-    color: var(--white);
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 300;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    transition: opacity 0.3s;
-    opacity: 0.7;
-}
+    .nav-menu a {
+        color: var(--white);
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 300;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        transition: opacity 0.3s;
+        opacity: 0.7;
+    }
 
-.nav-menu a:hover,
-.nav-menu a.active {
-    opacity: 1;
-}
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            opacity: 1;
+        }
 
 .cart-count {
     background: var(--white);
@@ -105,19 +105,18 @@ body {
     overflow: hidden;
 }
 
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.7)),
-                url('https://cdn.shopify.com/s/files/1/0266/5765/9343/files/RICKOWENS_HEADER_1_1800x.jpg?v=1614296715');
-    background-size: cover;
-    background-position: center;
-    opacity: 0.3;
-}
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.7)), url('https://cdn.shopify.com/s/files/1/0266/5765/9343/files/RICKOWENS_HEADER_1_1800x.jpg?v=1614296715');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.3;
+    }
 
 .hero-content {
     position: relative;
@@ -156,10 +155,10 @@ body {
     font-weight: 400;
 }
 
-.btn:hover {
-    background: var(--black);
-    color: var(--white);
-}
+    .btn:hover {
+        background: var(--black);
+        color: var(--white);
+    }
 
 /* 🛒 SHOP PAGE */
 .shop-section {
@@ -177,7 +176,7 @@ body {
     opacity: 0.7;
 }
 
-/* Filter Tabs */
+/* Filter Tabs (Brand Filter) */
 .filter-tabs {
     display: flex;
     justify-content: center;
@@ -201,19 +200,19 @@ body {
     font-weight: 300;
 }
 
-.filter-tab.active {
-    opacity: 1;
-}
+    .filter-tab.active {
+        opacity: 1;
+    }
 
-.filter-tab.active::after {
-    content: '';
-    position: absolute;
-    bottom: -21px;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: var(--white);
-}
+        .filter-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -21px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--white);
+        }
 
 /* Products Grid */
 .products-grid {
@@ -229,9 +228,9 @@ body {
     transition: transform 0.3s;
 }
 
-.product-card:hover {
-    transform: translateY(-5px);
-}
+    .product-card:hover {
+        transform: translateY(-5px);
+    }
 
 .product-image {
     width: 100%;
@@ -268,11 +267,11 @@ body {
     margin-bottom: 20px;
 }
 
-.product-price span {
-    text-decoration: line-through;
-    opacity: 0.5;
-    margin-right: 10px;
-}
+    .product-price span {
+        text-decoration: line-through;
+        opacity: 0.5;
+        margin-right: 10px;
+    }
 
 .btn-add {
     background: var(--black);
@@ -288,10 +287,10 @@ body {
     font-weight: 300;
 }
 
-.btn-add:hover {
-    background: var(--white);
-    color: var(--black);
-}
+    .btn-add:hover {
+        background: var(--white);
+        color: var(--black);
+    }
 
 /* CART PAGE */
 .cart-section {
@@ -372,10 +371,10 @@ body {
     transition: all 0.3s;
 }
 
-.quantity-btn:hover {
-    background: var(--white);
-    color: var(--black);
-}
+    .quantity-btn:hover {
+        background: var(--white);
+        color: var(--black);
+    }
 
 .remove-item {
     background: none;
@@ -391,9 +390,9 @@ body {
     transition: opacity 0.3s;
 }
 
-.remove-item:hover {
-    opacity: 1;
-}
+    .remove-item:hover {
+        opacity: 1;
+    }
 
 /* Order Summary */
 .order-summary {
@@ -420,12 +419,12 @@ body {
     font-weight: 300;
 }
 
-.summary-row.total {
-    border-bottom: none;
-    font-size: 16px;
-    font-weight: 400;
-    padding-top: 30px;
-}
+    .summary-row.total {
+        border-bottom: none;
+        font-size: 16px;
+        font-weight: 400;
+        padding-top: 30px;
+    }
 
 .btn-checkout {
     width: 100%;
@@ -453,46 +452,46 @@ body {
     border-right: 1px solid var(--border);
 }
 
-.checkout-form h3 {
-    font-size: 14px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    margin-bottom: 40px;
-    font-weight: 300;
-}
+    .checkout-form h3 {
+        font-size: 14px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        margin-bottom: 40px;
+        font-weight: 300;
+    }
 
 .form-group {
     margin-bottom: 30px;
 }
 
-.form-group label {
-    display: block;
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-bottom: 15px;
-    opacity: 0.7;
-    font-weight: 300;
-}
+    .form-group label {
+        display: block;
+        font-size: 11px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        opacity: 0.7;
+        font-weight: 300;
+    }
 
-.form-group input,
-.form-group select {
-    width: 100%;
-    padding: 15px 0;
-    background: none;
-    border: none;
-    border-bottom: 1px solid var(--border);
-    font-size: 14px;
-    color: var(--white);
-    font-family: 'Helvetica Neue', sans-serif;
-    font-weight: 300;
-}
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 15px 0;
+        background: none;
+        border: none;
+        border-bottom: 1px solid var(--border);
+        font-size: 14px;
+        color: var(--white);
+        font-family: 'Helvetica Neue', sans-serif;
+        font-weight: 300;
+    }
 
-.form-group input:focus,
-.form-group select:focus {
-    outline: none;
-    border-bottom-color: var(--white);
-}
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-bottom-color: var(--white);
+        }
 
 .payment-methods {
     margin: 50px 0;
@@ -524,169 +523,149 @@ body {
     background: var(--black);
 }
 
-.footer p {
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    opacity: 0.5;
-    font-weight: 300;
-}
+    .footer p {
+        font-size: 11px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        opacity: 0.5;
+        font-weight: 300;
+    }
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
     .nav-menu {
         display: none;
     }
-    
+
     .hero h1 {
         font-size: 36px;
         letter-spacing: 8px;
     }
-    
+
     .products-grid {
         grid-template-columns: 1fr;
         gap: 30px;
     }
-    
+
     .cart-container,
     .checkout-container {
         grid-template-columns: 1fr;
         gap: 40px;
     }
-    
+
     .checkout-form {
         padding-right: 0;
         border-right: none;
         border-bottom: 1px solid var(--border);
         padding-bottom: 40px;
     }
-    
+
     .cart-item {
         flex-direction: column;
         text-align: center;
         gap: 30px;
     }
-    
+
     .cart-item-image {
         width: 100%;
         height: 300px;
     }
-    
+
     .container {
         padding: 0 20px;
     }
-    
+
     .filter-tabs {
         flex-wrap: wrap;
         gap: 20px;
     }
+
+    /* 📱 RESPONSIVENESS: Удаляем старые стили сайдбара для мобильных устройств */
+    /* Здесь больше нет .shop-layout и .shop-sidebar */
 }
+
 /* ------------------------------------------- */
-/* 🛒 SHOP PAGE LAYOUT WITH SIDEBAR */
+/* 🛒 NEW HORIZONTAL CATEGORY MENU STYLES */
 /* ------------------------------------------- */
 
-/* Container that creates the two-column layout (Sidebar + Content) */
-.shop-layout {
-    display: grid;
-    /* 300px for sidebar, 1fr (rest of space) for products */
-    grid-template-columns: 300px 1fr;
-    gap: 80px;
-    padding-top: 50px;
+/* Контейнер для меню категорий */
+.horizontal-category-menu {
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Линия, отделяющая от фильтра брендов */
+    padding-top: 15px;
+    margin-bottom: 30px; /* Отступ до сетки товаров */
 }
 
-/* 🔳 SIDEBAR STYLES */
-.shop-sidebar {
-    padding-right: 20px;
-    /* Keeps the sidebar visible when scrolling the products */
-    position: sticky;
-    top: 150px;
-    height: fit-content;
-}
-
-.sidebar-title {
+/* Заголовок "CATEGORIES" */
+.category-menu-title {
     font-size: 11px;
     letter-spacing: 3px;
     text-transform: uppercase;
     font-weight: 400;
-    margin-bottom: 30px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
+    margin-bottom: 10px;
     opacity: 0.9;
+    color: #FFFFFF;
 }
 
-/* Category list structure */
+/* Основной список категорий (ALL PRODUCTS, CLOTHING, FOOTWEAR) */
 .category-filter-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex; /* Делает элементы горизонтальными */
+    flex-wrap: wrap;
+    gap: 30px; /* Расстояние между основными категориями */
+    align-items: flex-start;
 }
 
-    .category-filter-list > li {
-        margin-bottom: 5px;
-    }
-
+    /* Стили для всех ссылок категорий (белый цвет) */
     .category-filter-list a {
         text-decoration: none;
-        display: block;
-        padding: 10px 0;
+        padding: 5px 0;
         font-size: 13px;
         letter-spacing: 1px;
         text-transform: uppercase;
-        color: var(--white);
+        color: var(--white); /* Используем переменную, она определена вверху */
         opacity: 0.7;
         transition: opacity 0.3s;
         cursor: pointer;
+        white-space: nowrap;
     }
 
-        /* Active and Hover States */
+        /* Активные ссылки и при наведении */
         .category-filter-list a:hover,
         .category-filter-list a.active {
             opacity: 1;
+            color: var(--white);
         }
 
-    /* 🚀 MULTILEVEL CATEGORIES STYLES */
+/* 🚀 СТИЛИ ДЛЯ ПОДКАТЕГОРИЙ (Men's, Women's) */
 
-    .category-filter-list .has-children {
-        margin-bottom: 15px;
-    }
-
-        .category-filter-list .has-children > a {
-            font-weight: 400;
-        }
+.has-children {
+    position: relative;
+}
 
 .sub-category-list {
     list-style: none;
     padding: 0;
-    /* Indent to show hierarchy */
-    padding-left: 20px;
     margin-top: 5px;
+    /* Размещаем подкатегории горизонтально */
+    display: flex;
+    gap: 15px; /* Расстояние между Men's и Women's */
 }
 
+    /* Стили для ссылок подкатегорий */
     .sub-category-list a {
         font-size: 12px;
-        text-transform: none; /* Subcategories are not fully uppercase */
+        text-transform: none;
         padding: 5px 0;
         opacity: 0.6;
+        color: var(--white);
     }
 
+        /* Активные подкатегории и при наведении */
         .sub-category-list a:hover,
         .sub-category-list a.active {
             opacity: 1;
+            color: var(--white);
             font-weight: 400;
         }
-
-/* 📱 RESPONSIVENESS FOR SHOP PAGE */
-@media (max-width: 768px) {
-    /* Change the layout from columns to a single stack */
-    .shop-layout {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-
-    /* Remove sticky positioning for mobile */
-    .shop-sidebar {
-        position: static;
-        top: auto;
-        padding-right: 0;
-    }
-}
